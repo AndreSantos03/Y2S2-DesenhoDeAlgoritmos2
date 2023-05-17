@@ -3,4 +3,4 @@ project(DA_Project2)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(DA_Project2 main.cpp)
+add_executable(DA_Project2 projeto/main.cpp)
