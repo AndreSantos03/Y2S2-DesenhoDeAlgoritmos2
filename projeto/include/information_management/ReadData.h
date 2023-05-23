@@ -12,10 +12,12 @@
 #include <iterator>
 #include "../graph/Graph.h"
 
+
 using namespace std;
 
 class ReadData {
 public:
+    ReadData();
     Graph readToyGraph(const string &filename);
 };
 

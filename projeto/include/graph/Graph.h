@@ -11,7 +11,7 @@
 class Graph {
 public:
     Vertex *findVertex(const int &id) const;
-    bool addVertex(const int &id);
+    void addVertex(Vertex* vertex);
     bool addEdge(const int &source, const int &dest, double w);
 
     int getNumVertex() const;

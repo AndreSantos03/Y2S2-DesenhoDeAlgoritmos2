@@ -8,6 +8,7 @@
 
 Vertex::Vertex(int id): id(id) {}
 
+Vertex::Vertex(int id, string label): id(id), label(label){};
 
 bool Vertex::operator<(Vertex &vertex) const {
     return this->dist < vertex.dist;
@@ -77,6 +78,11 @@ void Vertex::deleteEdge(Edge *edge) {
     }
     delete edge;
 }
+
+string Vertex::getLabel() {
+    return label;
+}
+
 
 /********************** Edge  ****************************/
 

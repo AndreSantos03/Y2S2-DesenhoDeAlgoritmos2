@@ -8,6 +8,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 class Edge;
 
 /************************* Vertex  **************************/
@@ -15,6 +17,7 @@ class Edge;
 class Vertex {
 public:
     Vertex(int id);
+    Vertex(int id, string label);
     bool operator<(Vertex & vertex) const;
 
     int getId() const;
@@ -26,8 +29,11 @@ public:
     bool removeEdge(int destID);
     void removeOutgoingEdges();
 
+    string getLabel();
+
 protected:
     int id;
+    string label;
     std::vector<Edge *> adj;
     double dist;
 

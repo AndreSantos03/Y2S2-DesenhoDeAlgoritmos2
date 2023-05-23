@@ -18,11 +18,8 @@ int Graph::findVertexIdx(const int &id) const {
     return -1;
 }
 
-bool Graph::addVertex(const int &id) {
-    if (findVertex(id) != nullptr)
-        return false;
-    vertexSet.push_back(new Vertex(id));
-    return true;
+void Graph::addVertex(Vertex* vertex) {
+    vertexSet.push_back(vertex);
 }
 
 bool Graph::addEdge(const int &source, const int &dest, double w) {
