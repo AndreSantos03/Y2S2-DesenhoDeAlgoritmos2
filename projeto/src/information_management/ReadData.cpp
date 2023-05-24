@@ -10,7 +10,7 @@ ReadData::ReadData() {}
 Graph ReadData::readToyGraph(const string &filename) {
     ifstream file(filename);
     if (!file.is_open()) {
-        throw "File can not be opened";
+        throw filename + " can not be opened";
     }
     Graph graph;
 
@@ -39,7 +39,7 @@ Graph ReadData::readToyGraph(const string &filename) {
                 graph.addVertex(vertex2);
             }
 
-            graph.addEdge(origem,destino,distancia);
+            graph.addBidirectionalEdge(origem,destino,distancia);
         }
     }
     else{
@@ -67,10 +67,61 @@ Graph ReadData::readToyGraph(const string &filename) {
                 graph.addVertex(vertex2);
             }
 
-            graph.addEdge(origem,destino,distancia);
+            graph.addBidirectionalEdge(origem,destino,distancia);
         }
     }
 
     return graph;
 }
+
+Graph ReadData::readLargeGraph(const string &filename) {
+    string fileNodesName = filename + "/nodes.csv";
+    string fileEdgesName = filename + "/nodes.csv";
+    ifstream fileNodes(fileNodesName);
+    ifstream fileEdges(fileEdgesName);
+    if (!fileNodes.is_open()) {
+        throw fileNodesName + " can not be opened!";
+    }
+    if (!fileEdges.is_open()) {
+        throw fileNodesName + " can not be opened!";
+    }
+    Graph graph;
+
+    string fileLine;
+    getline(fileNodes, fileLine); // skip the first line (column headers)
+
+    while(getline(fileNodes,fileLine)){
+        stringstream ss(fileLine);
+        string idS, longitudeS, latitudeS;
+        getline(ss,idS,',');
+        getline(ss,longitudeS,',');
+        getline(ss,latitudeS,',');
+
+        int id = stoi(idS);
+        double longitude = stof(longitudeS);
+        double latitude = stof(latitudeS);
+        Vertex* v = new Vertex(id,longitude,latitude);
+        graph.addVertex(v);
+    }
+
+    getline(fileEdges, fileLine); //skip the first line
+
+    while(getline(fileEdges,fileLine)){
+        stringstream ss(fileLine);
+        string origemS, destinoS, distanciaS;
+
+        getline(ss,origemS,',');
+        getline(ss,destinoS,',');
+        getline(ss,distanciaS,',');
+
+        cout << origemS << endl;
+        int origem = stoi(origemS);
+        int destino = stoi(destinoS);
+        double distancia = stof(distanciaS);
+        graph.addEdge(origem, destino,distancia);
+    }
+    return graph;
+}
+
+
 

@@ -22,13 +22,19 @@ void Graph::addVertex(Vertex* vertex) {
     vertexSet.push_back(vertex);
 }
 
-bool Graph::addEdge(const int &source, const int &dest, double w) {
+void Graph::addEdge(const int &source, const int &dest, double w) {
     auto v1 = findVertex(source);
     auto v2 = findVertex(dest);
-    if (v1 == nullptr || v2 == nullptr)
-        return false;
     v1->addEdge(v2, w);
-    return true;
+}
+
+void Graph::addBidirectionalEdge(const int &source, const int &dest, double w) {
+    auto v1 = findVertex(source);
+    auto v2 = findVertex(dest);
+    auto e1 = v1->addEdge(v2, w);
+    auto e2 = v2->addEdge(v1, w);
+    e1->setReverse(e2);
+    e2->setReverse(e1);
 }
 
 int Graph::getNumVertex() const {
@@ -38,4 +44,6 @@ int Graph::getNumVertex() const {
 std::vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
+
+
 

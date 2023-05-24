@@ -18,22 +18,27 @@ class Vertex {
 public:
     Vertex(int id);
     Vertex(int id, string label);
+    Vertex(int id, int longitude, int latitude);
     bool operator<(Vertex & vertex) const;
 
     int getId() const;
     std::vector<Edge *> getAdj() const;
+
 
     void setId(int info);
     void setDist(double dist);
     Edge * addEdge(Vertex *dest, double w);
     bool removeEdge(int destID);
     void removeOutgoingEdges();
+    std::vector<Edge *> getIncoming() const;
 
     string getLabel();
 
 protected:
     int id;
     string label;
+    int longitude;
+    int latitude;
     std::vector<Edge *> adj;
     double dist;
 
@@ -51,6 +56,11 @@ public:
     Vertex * getDest() const;
     double getWeight() const;
     Vertex * getOrig() const;
+    Edge *getReverse() const;
+
+    void setReverse(Edge *reverse);
+
+
 private:
     Vertex * dest; // destination vertex
     double weight; // edge weight, can also be used for capacity

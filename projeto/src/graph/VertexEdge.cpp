@@ -10,6 +10,8 @@ Vertex::Vertex(int id): id(id) {}
 
 Vertex::Vertex(int id, string label): id(id), label(label){};
 
+Vertex::Vertex(int id, int longitude, int latitude): id(id), longitude(longitude), latitude(latitude){};
+
 bool Vertex::operator<(Vertex &vertex) const {
     return this->dist < vertex.dist;
 }
@@ -34,6 +36,7 @@ Edge *Vertex::addEdge(Vertex *dest, double w) {
     auto newEdge = new Edge(this, dest, w);
     adj.push_back(newEdge);
     dest->incoming.push_back(newEdge);
+    cout << "d" << endl;
     return newEdge;
 }
 
@@ -83,6 +86,10 @@ string Vertex::getLabel() {
     return label;
 }
 
+std::vector<Edge *> Vertex::getIncoming() const {
+    return incoming;
+}
+
 
 /********************** Edge  ****************************/
 
@@ -96,7 +103,16 @@ Vertex *Edge::getOrig() const {
     return this->orig;
 }
 
-
 double Edge::getWeight() const {
     return weight;
 }
+
+Edge *Edge::getReverse() const {
+    return reverse;
+}
+
+void Edge::setReverse(Edge *reverse) {
+    this->reverse = reverse;
+}
+
+

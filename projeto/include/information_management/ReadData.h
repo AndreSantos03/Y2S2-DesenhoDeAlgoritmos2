@@ -19,6 +19,7 @@ class ReadData {
 public:
     ReadData();
     Graph readToyGraph(const string &filename);
+    Graph readLargeGraph(const string &filename);
 };
 
 

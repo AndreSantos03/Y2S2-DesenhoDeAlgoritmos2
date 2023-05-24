@@ -6,11 +6,11 @@ using namespace std;
 int main() {
     ReadData readData = ReadData();
    try{
-        Graph graph = readData.readToyGraph("../projeto/data/toy_graphs/tourism.csv");
-        vector<Vertex *> s = graph.getVertexSet();
-       for (Vertex* vertex : s) {
-           cout << vertex->getId() << " : " << vertex->getLabel()<< endl;  // Access the member function inside each Vertex
-       }
+        Graph graph = readData.readLargeGraph("../projeto/data/real_world_graphs/graph1");
+        cout << "HERE" << endl;
+        for(auto v : graph.getVertexSet()){
+            cout << v->getId() << ":" << v->getAdj().size() <<endl;
+        }
    }
    catch (char const* e){
        cout << e;
