@@ -18,7 +18,7 @@ using namespace std;
 class ReadData {
 public:
     ReadData();
-    Graph readToyGraph(const string &filename);
+    Graph readNormalGraph(const string &filename);
     Graph readLargeGraph(const string &filename);
 };
 

@@ -7,7 +7,7 @@
 ReadData::ReadData() {}
 
 
-Graph ReadData::readToyGraph(const string &filename) {
+Graph ReadData::readNormalGraph(const string &filename) {
     ifstream file(filename);
     if (!file.is_open()) {
         throw filename + " can not be opened";
@@ -15,7 +15,10 @@ Graph ReadData::readToyGraph(const string &filename) {
     Graph graph;
 
     string fileLine;
-    getline(file, fileLine); // skip the first line (column headers)
+    if(filename.find("toy_graphs") != string::npos) {
+        getline(file, fileLine); // skip the first line (column headers)
+        cout << "duiadwhnawd";
+    }
 
     if(filename != "../projeto/data/toy_graphs/tourism.csv"){
         while(getline(file, fileLine)){
@@ -76,7 +79,7 @@ Graph ReadData::readToyGraph(const string &filename) {
 
 Graph ReadData::readLargeGraph(const string &filename) {
     string fileNodesName = filename + "/nodes.csv";
-    string fileEdgesName = filename + "/nodes.csv";
+    string fileEdgesName = filename + "/edges.csv";
     ifstream fileNodes(fileNodesName);
     ifstream fileEdges(fileEdgesName);
     if (!fileNodes.is_open()) {
@@ -104,6 +107,7 @@ Graph ReadData::readLargeGraph(const string &filename) {
         graph.addVertex(v);
     }
 
+
     getline(fileEdges, fileLine); //skip the first line
 
     while(getline(fileEdges,fileLine)){
@@ -114,7 +118,6 @@ Graph ReadData::readLargeGraph(const string &filename) {
         getline(ss,destinoS,',');
         getline(ss,distanciaS,',');
 
-        cout << origemS << endl;
         int origem = stoi(origemS);
         int destino = stoi(destinoS);
         double distancia = stof(distanciaS);

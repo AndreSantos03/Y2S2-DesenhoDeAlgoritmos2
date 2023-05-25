@@ -36,7 +36,6 @@ Edge *Vertex::addEdge(Vertex *dest, double w) {
     auto newEdge = new Edge(this, dest, w);
     adj.push_back(newEdge);
     dest->incoming.push_back(newEdge);
-    cout << "d" << endl;
     return newEdge;
 }
 
