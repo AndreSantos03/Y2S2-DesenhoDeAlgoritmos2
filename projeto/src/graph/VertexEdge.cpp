@@ -89,6 +89,14 @@ std::vector<Edge *> Vertex::getIncoming() const {
     return incoming;
 }
 
+bool Vertex::getVisited() {
+    return visited;
+}
+
+void Vertex::setVisited(bool info) {
+    visited = info;
+}
+
 
 /********************** Edge  ****************************/
 

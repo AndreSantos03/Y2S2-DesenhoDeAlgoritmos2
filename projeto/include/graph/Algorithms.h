@@ -16,7 +16,15 @@ class Algorithms {
 public:
     Algorithms(Graph graph);
 
+    void setGraph(Graph graph);
+
+    vector<int> backtracking();
+
 private:
+
+    vector<int> btLoop();
+    void setAllNonVisited();
+
     Graph graph;
 };
 

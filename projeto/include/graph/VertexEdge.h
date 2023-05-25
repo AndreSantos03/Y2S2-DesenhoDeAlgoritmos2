@@ -21,10 +21,12 @@ public:
     Vertex(int id, int longitude, int latitude);
     bool operator<(Vertex & vertex) const;
 
+    bool getVisited();
     int getId() const;
     std::vector<Edge *> getAdj() const;
 
 
+    void setVisited(bool info);
     void setId(int info);
     void setDist(double dist);
     Edge * addEdge(Vertex *dest, double w);
@@ -41,6 +43,7 @@ protected:
     int latitude;
     std::vector<Edge *> adj;
     double dist;
+    bool visited;
 
     std::vector<Edge *> incoming;
 
