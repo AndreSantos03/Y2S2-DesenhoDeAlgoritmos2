@@ -23,6 +23,7 @@ public:
 
     bool getVisited();
     int getId() const;
+    double getDist();
     std::vector<Edge *> getAdj() const;
 
 

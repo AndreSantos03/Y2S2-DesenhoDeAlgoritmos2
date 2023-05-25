@@ -20,8 +20,12 @@ void Algorithms::setAllNonVisited() {
 
 vector<int> Algorithms::backtracking() {
     setAllNonVisited();
+
+    return {};
 }
 
+/*
 vector<int> Algorithms::btLoop() {
     if(lab)
 }
+*/

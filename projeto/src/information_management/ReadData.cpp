@@ -34,11 +34,11 @@ Graph ReadData::readNormalGraph(const string &filename) {
             double distancia = stof(distanciaS);
 
             if(!graph.findVertex(origem)){
-                Vertex* vertex1 = new Vertex(origem);
+                Vertex vertex1 = Vertex(origem);
                 graph.addVertex(vertex1);
             }
             if(!graph.findVertex(destino)){
-                Vertex* vertex2 = new Vertex(destino);
+                Vertex vertex2 = Vertex(destino);
                 graph.addVertex(vertex2);
             }
 
@@ -62,11 +62,11 @@ Graph ReadData::readNormalGraph(const string &filename) {
 
 
             if(!graph.findVertex(origem)){
-                Vertex* vertex1 = new Vertex(origem,labelOrigem);
+                Vertex vertex1 = Vertex(origem,labelOrigem);
                 graph.addVertex(vertex1);
             }
             if(!graph.findVertex(destino)){
-                Vertex* vertex2 = new Vertex(destino,labelDestino);
+                Vertex vertex2 = Vertex(destino,labelDestino);
                 graph.addVertex(vertex2);
             }
 
@@ -103,7 +103,7 @@ Graph ReadData::readLargeGraph(const string &filename) {
         int id = stoi(idS);
         double longitude = stof(longitudeS);
         double latitude = stof(latitudeS);
-        Vertex* v = new Vertex(id,longitude,latitude);
+        Vertex v = Vertex(id,longitude,latitude);
         graph.addVertex(v);
     }
 

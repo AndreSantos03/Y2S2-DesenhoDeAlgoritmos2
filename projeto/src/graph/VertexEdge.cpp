@@ -20,6 +20,10 @@ int Vertex::getId() const {
     return this->id;
 }
 
+double Vertex::getDist() {
+    return this->dist;
+}
+
 std::vector<Edge *> Vertex::getAdj() const {
     return this->adj;
 }
