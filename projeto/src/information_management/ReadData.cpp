@@ -121,7 +121,7 @@ Graph ReadData::readLargeGraph(const string &filename) {
         int origem = stoi(origemS);
         int destino = stoi(destinoS);
         double distancia = stof(distanciaS);
-        graph.addEdge(origem, destino,distancia);
+        graph.addBidirectionalEdge(origem, destino,distancia);
     }
     return graph;
 }

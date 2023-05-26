@@ -16,7 +16,6 @@ int main() {
    }
     */
 
-    /*
     Graph g;
     g.addVertex(4);
     g.addVertex(1);
@@ -26,6 +25,6 @@ int main() {
     g.addBidirectionalEdge(1,2,1);
     g.addBidirectionalEdge(4,3,100);
     g.addBidirectionalEdge(2,3,1);
-    std::cout << g.dijkstra(4,3);
-    */
+    std::cout << g.dijkstra(4,3) << endl;
+    std:: cout << "ada";
 }
