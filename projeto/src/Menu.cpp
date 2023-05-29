@@ -9,13 +9,9 @@ using namespace std;
 
 
 Menu::Menu() : algorithms(graph) {
-    try {
-        data = ReadData();
-        graph = data.readNormalGraph("../projeto/data/toy_graphs/shipping.csv");
-        algorithms = Algorithms(graph);
-    } catch (const char* e) {
-        cout << e;
-    }
+    data = ReadData();
+    graph = data.readNormalGraph("../projeto/data/toy_graphs/shipping.csv");
+    algorithms = Algorithms(graph);
 }
 
 
