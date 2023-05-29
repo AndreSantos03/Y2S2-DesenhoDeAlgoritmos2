@@ -14,6 +14,8 @@ using namespace std;
 
 class Algorithms {
 public:
+
+
     Algorithms(Graph graph);
 
     void setGraph(Graph graph);

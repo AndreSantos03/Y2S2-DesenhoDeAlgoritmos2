@@ -4,7 +4,8 @@
 
 #include "../../include/information_management/ReadData.h"
 
-ReadData::ReadData() {}
+ReadData::ReadData() {
+}
 
 
 Graph ReadData::readNormalGraph(const string &filename) {
