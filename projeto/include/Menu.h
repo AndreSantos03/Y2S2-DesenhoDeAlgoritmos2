@@ -14,6 +14,10 @@ class Menu {
 public:
     Menu();
     void display();
+    void setGraphNormalFile(const string &filename);
+    void setGraphLargeFile(const string &filename);
+
+
 
 private:
     Graph graph;
@@ -21,6 +25,9 @@ private:
     Algorithms algorithms;
 
     void loadDataSet();
+    void toyGraphs();
+    void mediumGraphs();
+    void realWorldGraphs();
 };
 
 
