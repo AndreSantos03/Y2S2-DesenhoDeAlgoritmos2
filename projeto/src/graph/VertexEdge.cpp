@@ -107,7 +107,7 @@ void Vertex::setVisited(bool info) {
 Edge::Edge(Vertex *orig, Vertex *dest, double w):orig(orig), dest(dest), weight(w) {}
 
 Vertex *Edge::getDest() const {
-    this->dest;
+    return this->dest;
 }
 
 Vertex *Edge::getOrig() const {

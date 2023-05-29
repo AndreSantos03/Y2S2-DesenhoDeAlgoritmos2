@@ -17,14 +17,12 @@ Graph ReadData::readNormalGraph(const string &filename) {
     string fileLine;
     if(filename.find("toy_graphs") != string::npos) {
         getline(file, fileLine); // skip the first line (column headers)
-        cout << "duiadwhnawd";
     }
 
     if(filename != "../projeto/data/toy_graphs/tourism.csv"){
         while(getline(file, fileLine)){
             stringstream ss(fileLine);
             string origemS, destinoS, distanciaS;
-
             getline(ss,origemS,',');
             getline(ss,destinoS,',');
             getline(ss,distanciaS,',');
@@ -33,13 +31,14 @@ Graph ReadData::readNormalGraph(const string &filename) {
             int destino = stoi(destinoS);
             double distancia = stof(distanciaS);
 
+
             if(!graph.findVertex(origem)){
                 Vertex vertex1 = Vertex(origem);
-                graph.addVertex(vertex1);
+                graph.addVertex(&vertex1);
             }
             if(!graph.findVertex(destino)){
                 Vertex vertex2 = Vertex(destino);
-                graph.addVertex(vertex2);
+                graph.addVertex(&vertex2);
             }
 
             graph.addBidirectionalEdge(origem,destino,distancia);
@@ -63,11 +62,11 @@ Graph ReadData::readNormalGraph(const string &filename) {
 
             if(!graph.findVertex(origem)){
                 Vertex vertex1 = Vertex(origem,labelOrigem);
-                graph.addVertex(vertex1);
+                graph.addVertex(&vertex1);
             }
             if(!graph.findVertex(destino)){
                 Vertex vertex2 = Vertex(destino,labelDestino);
-                graph.addVertex(vertex2);
+                graph.addVertex(&vertex2);
             }
 
             graph.addBidirectionalEdge(origem,destino,distancia);
@@ -104,7 +103,7 @@ Graph ReadData::readLargeGraph(const string &filename) {
         double longitude = stof(longitudeS);
         double latitude = stof(latitudeS);
         Vertex v = Vertex(id,longitude,latitude);
-        graph.addVertex(v);
+        graph.addVertex(&v);
     }
 
 

@@ -11,7 +11,7 @@
 class Graph {
 public:
     Vertex *findVertex(const int &id) const;
-    void addVertex(Vertex vertex);
+    void addVertex(Vertex* vertex);
     void addVertex(int id);
     void addEdge(const int &source, const int &dest, double w);
     void addBidirectionalEdge(const int &source, const int &dest, double w);

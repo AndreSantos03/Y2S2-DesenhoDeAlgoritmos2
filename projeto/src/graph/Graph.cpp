@@ -21,29 +21,34 @@ int Graph::findVertexIdx(const int &id) const {
     return -1;
 }
 
-void Graph::addVertex(Vertex vertex) {
-    vertexSet.push_back(&vertex);
+void Graph::addVertex(Vertex* vertex) {
+    vertexSet.push_back(vertex);
 }
 
 void Graph::addVertex(int id){
-    Vertex v(id);
-     vertexSet.push_back(&v);
+    Vertex* v = new Vertex(id);
+    vertexSet.push_back(v);
 }
 
 void Graph::addEdge(const int &source, const int &dest, double w) {
-    auto v1 = findVertex(source);
-    auto v2 = findVertex(dest);
-    v1->addEdge(v2, w);
+    Vertex* v1 = findVertex(source);
+    Vertex* v2 = findVertex(dest);
+    if (v1 && v2) {
+        v1->addEdge(v2, w);
+    }
 }
 
 void Graph::addBidirectionalEdge(const int &source, const int &dest, double w) {
-    auto v1 = findVertex(source);
-    auto v2 = findVertex(dest);
-    auto e1 = v1->addEdge(v2, w);
-    auto e2 = v2->addEdge(v1, w);
-    e1->setReverse(e2);
-    e2->setReverse(e1);
+    Vertex* v1 = findVertex(source);
+    Vertex* v2 = findVertex(dest);
+    if (v1 && v2) {
+        Edge* e1 = v1->addEdge(v2, w);
+        Edge* e2 = v2->addEdge(v1, w);
+        e1->setReverse(e2);
+        e2->setReverse(e1);
+    }
 }
+
 
 int Graph::getNumVertex() const {
     return vertexSet.size();
