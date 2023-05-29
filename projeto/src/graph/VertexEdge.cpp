@@ -6,13 +6,13 @@
 
 /************************* Vertex  **************************/
 
-Vertex::Vertex(int id): id(id) {}
+Vertex::Vertex(int id) : id(id), visited(false) {}
 
-Vertex::Vertex(int id, string label): id(id), label(label){};
+Vertex::Vertex(int id, std::string label) : id(id), label(label), visited(false) {}
 
-Vertex::Vertex(int id, int longitude, int latitude): id(id), longitude(longitude), latitude(latitude){};
+Vertex::Vertex(int id, int longitude, int latitude) : id(id), longitude(longitude), latitude(latitude), visited(false) {}
 
-bool Vertex::operator<(Vertex &vertex) const {
+bool Vertex::operator<(const Vertex &vertex) const {
     return this->dist < vertex.dist;
 }
 
@@ -20,7 +20,7 @@ int Vertex::getId() const {
     return this->id;
 }
 
-double Vertex::getDist() {
+double Vertex::getDist() const {
     return this->dist;
 }
 
@@ -28,16 +28,44 @@ std::vector<Edge *> Vertex::getAdj() const {
     return this->adj;
 }
 
+std::vector<Edge *> Vertex::getIncoming() const {
+    return this->incoming;
+}
+
+bool Vertex::getVisited() const {
+    return visited;
+}
+
+int Vertex::getLongitude() const {
+    return longitude;
+}
+
+int Vertex::getLatitude() const {
+    return latitude;
+}
+
+std::string Vertex::getLabel() const {
+    return label;
+}
+
+bool Vertex::isVisited() const {
+    return visited;
+}
+
 void Vertex::setId(int info) {
-    this->id = id;
+    this->id = info;
 }
 
 void Vertex::setDist(double dist) {
     this->dist = dist;
 }
 
+void Vertex::setVisited(bool info) {
+    visited = info;
+}
+
 Edge *Vertex::addEdge(Vertex *dest, double w) {
-    auto newEdge = new Edge(this, dest, w);
+    Edge *newEdge = new Edge(this, dest, w);
     adj.push_back(newEdge);
     dest->incoming.push_back(newEdge);
     return newEdge;
@@ -53,8 +81,7 @@ bool Vertex::removeEdge(int destID) {
             it = adj.erase(it);
             deleteEdge(edge);
             removedEdge = true; // allows for multiple edges to connect the same pair of vertices (multigraph)
-        }
-        else {
+        } else {
             it++;
         }
     }
@@ -77,41 +104,23 @@ void Vertex::deleteEdge(Edge *edge) {
     while (it != dest->incoming.end()) {
         if ((*it)->getOrig()->getId() == id) {
             it = dest->incoming.erase(it);
-        }
-        else {
+        } else {
             it++;
         }
     }
     delete edge;
 }
 
-string Vertex::getLabel() {
-    return label;
-}
+/************************* Edge  ****************************/
 
-std::vector<Edge *> Vertex::getIncoming() const {
-    return incoming;
-}
-
-bool Vertex::getVisited() {
-    return visited;
-}
-
-void Vertex::setVisited(bool info) {
-    visited = info;
-}
-
-
-/********************** Edge  ****************************/
-
-Edge::Edge(Vertex *orig, Vertex *dest, double w):orig(orig), dest(dest), weight(w) {}
+Edge::Edge(Vertex *orig, Vertex *dest, double w) : orig(orig), dest(dest), weight(w), reverse(nullptr) {}
 
 Vertex *Edge::getDest() const {
-    return this->dest;
+    return dest;
 }
 
 Vertex *Edge::getOrig() const {
-    return this->orig;
+    return orig;
 }
 
 double Edge::getWeight() const {
@@ -125,5 +134,3 @@ Edge *Edge::getReverse() const {
 void Edge::setReverse(Edge *reverse) {
     this->reverse = reverse;
 }
-
-

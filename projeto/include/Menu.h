@@ -19,6 +19,8 @@ private:
     Graph graph;
     ReadData data;
     Algorithms algorithms;
+
+    void loadDataSet();
 };
 
 

@@ -7,22 +7,48 @@
 #include <queue>
 #include <vector>
 
-Vertex *Graph::findVertex(const int &id) const {
-    for (auto v : vertexSet)
-        if (v->getId() == id)
+Vertex* Graph::findVertex(const int& id) const {
+    for (auto v : vertexSet) {
+        if (v->getId() == id) {
             return v;
+        }
+    }
     return nullptr;
 }
-
-int Graph::findVertexIdx(const int &id) const {
-    for (unsigned i = 0; i < vertexSet.size(); i++)
-        if (vertexSet[i]->getId() == id)
+int Graph::findVertexIdx(const int& id) const {
+    for (unsigned i = 0; i < vertexSet.size(); i++) {
+        if (vertexSet[i]->getId() == id) {
             return i;
+        }
+    }
     return -1;
 }
 
 void Graph::addVertex(Vertex* vertex) {
     vertexSet.push_back(vertex);
+}
+
+bool Graph::removeVertex(int id) {
+    Vertex* vertexToRmv = findVertex(id);
+    if (vertexToRmv == nullptr) {
+        return false;
+    }
+
+    for (auto edge : vertexToRmv->getAdj()) {
+        auto temp = edge->getDest();
+        temp->removeEdge(vertexToRmv->getId());
+        vertexToRmv->removeEdge(temp->getId());
+    }
+
+    for (auto it = vertexSet.begin(); it != vertexSet.end(); it++) {
+        if ((*it)->getId() == id){
+            vertexSet.erase(it);
+            break;
+        }
+    }
+
+    delete vertexToRmv;
+    return true;
 }
 
 void Graph::addVertex(int id){
@@ -58,12 +84,7 @@ std::vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
 
-class comp{
-public:
-    bool operator()(std::pair<double,int> p1, std::pair<double,int> p2){
-        return p1.first < p2.first;
-    }
-};
+
 
 double Graph::dijkstra(int src, int dest) {
 
@@ -72,7 +93,7 @@ double Graph::dijkstra(int src, int dest) {
         i->setDist(INF);
     }
 
-    std::priority_queue<std::pair<double,int>,std::vector<std::pair<double,int>>,comp> q;
+    std::priority_queue<std::pair<double,int>,std::vector<std::pair<double,int>>,Comp> q;
 
     q.push({0,src});
 

@@ -21,17 +21,21 @@ void Menu::display() {
     do {
         cout << "===== MENU =====" << endl;
         cout << "1. Load dataset" << endl;
-        cout << "2. Backtracking Algorithm" << endl;
+        cout << "2. Remove Edge" << endl;
         cout << "3. Triangular Approximation Heuristic" << endl;
         cout << "4. Other Heuristics" << endl;
         cout << "5. Exit" << endl;
-        cout << "Choose an option: ";
+        cout << "Choose an option:";
         cin >> choice;
 
         switch (choice) {
             case 1:
+                loadDataSet();
                 break;
             case 2:
+                int choice2;
+                cin >> choice2;
+                graph.removeVertex(choice2);
                 break;
             case 3:
                 break;
@@ -47,3 +51,19 @@ void Menu::display() {
         cout << endl;
     } while (choice != 5);
 }
+
+void Menu::loadDataSet() {
+    vector<Vertex*> vertices = graph.getVertexSet();
+    if (vertices.empty()) {
+        cout << "O conjunto de vértices está vazio." << endl;
+    } else {
+        cout << "Lista de arestas:" << endl;
+        for (Vertex* vertex : vertices) {
+            for (Edge* edge : vertex->getAdj()) {
+                cout << "Origem: " << vertex->getId() << " Destino: " << edge->getDest()->getId() << endl;
+                cout << endl;
+            }
+        }
+    }
+}
+
