@@ -11,8 +11,10 @@
 class Graph {
 public:
     Vertex *findVertex(const int &id) const;
+    int findVertexIdx(const int &id) const;
     void addVertex(Vertex* vertex);
     void addVertex(int id);
+    bool removeVertex(int id);
     void addEdge(const int &source, const int &dest, double w);
     void addBidirectionalEdge(const int &source, const int &dest, double w);
 
@@ -21,10 +23,14 @@ public:
 
     double dijkstra(int src, int dest);
 
-protected:
+private:
     std::vector<Vertex *> vertexSet;
-
-    int findVertexIdx(const int &id) const;
+    class Comp {
+    public:
+        bool operator()(std::pair<double, int> p1, std::pair<double, int> p2) {
+            return p1.first > p2.first;
+        }
+    };
 };
 
 

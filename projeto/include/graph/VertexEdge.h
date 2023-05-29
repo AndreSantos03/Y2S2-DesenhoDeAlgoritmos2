@@ -1,14 +1,8 @@
-//
-// Created by NASA on 21/05/2023.
-//
-
-#ifndef DA_PROJECT2_VERTEXEDGE_H
-#define DA_PROJECT2_VERTEXEDGE_H
+#ifndef VERTEXEDGE_H
+#define VERTEXEDGE_H
 
 #include <iostream>
 #include <vector>
-
-using namespace std;
 
 class Edge;
 
@@ -17,61 +11,60 @@ class Edge;
 class Vertex {
 public:
     Vertex(int id);
-    Vertex(int id, string label);
+    Vertex(int id, std::string label);
     Vertex(int id, int longitude, int latitude);
-    bool operator<(Vertex & vertex) const;
 
-    bool getVisited();
+    bool operator<(const Vertex& vertex) const;
+
     int getId() const;
-    double getDist();
-    std::vector<Edge *> getAdj() const;
+    double getDist() const;
+    std::vector<Edge*> getAdj() const;
+    std::vector<Edge*> getIncoming() const;
+    bool getVisited() const;
+    int getLongitude() const;
+    int getLatitude() const;
+    std::string getLabel() const;
+    bool isVisited() const;
 
-
-    void setVisited(bool info);
     void setId(int info);
     void setDist(double dist);
-    Edge * addEdge(Vertex *dest, double w);
+    void setVisited(bool info);
+
+    Edge* addEdge(Vertex* dest, double w);
     bool removeEdge(int destID);
     void removeOutgoingEdges();
-    std::vector<Edge *> getIncoming() const;
-
-    string getLabel();
 
 protected:
     int id;
-    string label;
+    std::string label;
     int longitude;
     int latitude;
-    std::vector<Edge *> adj;
+    std::vector<Edge*> adj;
+    std::vector<Edge*> incoming;
     double dist;
     bool visited;
 
-    std::vector<Edge *> incoming;
-
-    void deleteEdge(Edge *edge);
+    void deleteEdge(Edge* edge);
 };
 
-/********************** Edge  ****************************/
+/********************** Edge ****************************/
 
-class Edge{
+class Edge {
 public:
-    Edge(Vertex *orig, Vertex *dest, double w);
+    Edge(Vertex* orig, Vertex* dest, double w);
 
-    Vertex * getDest() const;
+    Vertex* getDest() const;
+    Vertex* getOrig() const;
     double getWeight() const;
-    Vertex * getOrig() const;
-    Edge *getReverse() const;
+    Edge* getReverse() const;
 
-    void setReverse(Edge *reverse);
-
+    void setReverse(Edge* reverse);
 
 private:
-    Vertex * dest; // destination vertex
-    double weight; // edge weight, can also be used for capacity
-
-    Vertex *orig;
-    Edge *reverse;
+    Vertex* orig;
+    Vertex* dest;
+    double weight;
+    Edge* reverse;
 };
 
-
-#endif //DA_PROJECT2_VERTEXEDGE_H
+#endif // VERTEXEDGE_H

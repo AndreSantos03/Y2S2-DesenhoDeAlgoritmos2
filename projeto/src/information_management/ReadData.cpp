@@ -4,72 +4,70 @@
 
 #include "../../include/information_management/ReadData.h"
 
-ReadData::ReadData() {}
-
+ReadData::ReadData() {
+}
 
 Graph ReadData::readNormalGraph(const string &filename) {
     ifstream file(filename);
     if (!file.is_open()) {
-        throw filename + " can not be opened";
+        throw filename + " cannot be opened";
     }
     Graph graph;
 
     string fileLine;
-    if(filename.find("toy_graphs") != string::npos) {
+    if (filename.find("toy_graphs") != string::npos) {
         getline(file, fileLine); // skip the first line (column headers)
     }
 
-    if(filename != "../projeto/data/toy_graphs/tourism.csv"){
-        while(getline(file, fileLine)){
+    if (filename != "../projeto/data/toy_graphs/tourism.csv") {
+        while (getline(file, fileLine)) {
             stringstream ss(fileLine);
-            string origemS, destinoS, distanciaS;
-            getline(ss,origemS,',');
-            getline(ss,destinoS,',');
-            getline(ss,distanciaS,',');
+            string sourceS, destS, distanceS;
+            getline(ss, sourceS, ',');
+            getline(ss, destS, ',');
+            getline(ss, distanceS, ',');
 
-            int origem = stoi(origemS);
-            int destino = stoi(destinoS);
-            double distancia = stof(distanciaS);
+            int source = stoi(sourceS);
+            int dest = stoi(destS);
+            double distance = stof(distanceS);
 
-
-            if(!graph.findVertex(origem)){
-                Vertex vertex1 = Vertex(origem);
-                graph.addVertex(&vertex1);
-            }
-            if(!graph.findVertex(destino)){
-                Vertex vertex2 = Vertex(destino);
-                graph.addVertex(&vertex2);
+            if (!graph.findVertex(source)) {
+                Vertex* vertex1 = new Vertex(source);
+                graph.addVertex(vertex1);
             }
 
-            graph.addBidirectionalEdge(origem,destino,distancia);
+            if (!graph.findVertex(dest)) {
+                Vertex* vertex2 = new Vertex(dest);
+                graph.addVertex(vertex2);
+            }
+
+            graph.addBidirectionalEdge(source, dest, distance);
         }
-    }
-    else{
-        while(getline(file, fileLine)){
+    } else {
+        while (getline(file, fileLine)) {
             stringstream ss(fileLine);
-            string origemS, destinoS, distanciaS,labelOrigem, labelDestino;
+            string sourceS, destS, distanceS, sourceLabel, destLabel;
 
-            getline(ss,origemS,',');
-            getline(ss,destinoS,',');
-            getline(ss,distanciaS,',');
-            getline(ss,labelOrigem,',');
-            getline(ss,labelDestino,',');
+            getline(ss, sourceS, ',');
+            getline(ss, destS, ',');
+            getline(ss, distanceS, ',');
+            getline(ss, sourceLabel, ',');
+            getline(ss, destLabel, ',');
 
-            int origem = stoi(origemS);
-            int destino = stoi(destinoS);
-            double distancia = stof(distanciaS);
+            int source = stoi(sourceS);
+            int dest = stoi(destS);
+            double distance = stof(distanceS);
 
-
-            if(!graph.findVertex(origem)){
-                Vertex vertex1 = Vertex(origem,labelOrigem);
+            if (!graph.findVertex(source)) {
+                Vertex vertex1 = Vertex(source, sourceLabel);
                 graph.addVertex(&vertex1);
             }
-            if(!graph.findVertex(destino)){
-                Vertex vertex2 = Vertex(destino,labelDestino);
+            if (!graph.findVertex(dest)) {
+                Vertex vertex2 = Vertex(dest, destLabel);
                 graph.addVertex(&vertex2);
             }
 
-            graph.addBidirectionalEdge(origem,destino,distancia);
+            graph.addBidirectionalEdge(source, dest, distance);
         }
     }
 
@@ -82,48 +80,45 @@ Graph ReadData::readLargeGraph(const string &filename) {
     ifstream fileNodes(fileNodesName);
     ifstream fileEdges(fileEdgesName);
     if (!fileNodes.is_open()) {
-        throw fileNodesName + " can not be opened!";
+        throw fileNodesName + " cannot be opened!";
     }
     if (!fileEdges.is_open()) {
-        throw fileNodesName + " can not be opened!";
+        throw fileEdgesName + " cannot be opened!";
     }
     Graph graph;
 
     string fileLine;
     getline(fileNodes, fileLine); // skip the first line (column headers)
 
-    while(getline(fileNodes,fileLine)){
+    while (getline(fileNodes, fileLine)) {
         stringstream ss(fileLine);
         string idS, longitudeS, latitudeS;
-        getline(ss,idS,',');
-        getline(ss,longitudeS,',');
-        getline(ss,latitudeS,',');
+        getline(ss, idS, ',');
+        getline(ss, longitudeS, ',');
+        getline(ss, latitudeS, ',');
 
         int id = stoi(idS);
         double longitude = stof(longitudeS);
         double latitude = stof(latitudeS);
-        Vertex v = Vertex(id,longitude,latitude);
-        graph.addVertex(&v);
+        Vertex* v = new Vertex(id, longitude, latitude);
+        graph.addVertex(v);
     }
 
+    getline(fileEdges, fileLine); // skip the first line
 
-    getline(fileEdges, fileLine); //skip the first line
-
-    while(getline(fileEdges,fileLine)){
+    while (getline(fileEdges, fileLine)) {
         stringstream ss(fileLine);
-        string origemS, destinoS, distanciaS;
+        string sourceS, destS, distanceS;
 
-        getline(ss,origemS,',');
-        getline(ss,destinoS,',');
-        getline(ss,distanciaS,',');
+        getline(ss, sourceS, ',');
+        getline(ss, destS, ',');
+        getline(ss, distanceS, ',');
 
-        int origem = stoi(origemS);
-        int destino = stoi(destinoS);
-        double distancia = stof(distanciaS);
-        graph.addBidirectionalEdge(origem, destino,distancia);
+        int source = stoi(sourceS);
+        int dest = stoi(destS);
+        double distance = stof(distanceS);
+        graph.addBidirectionalEdge(source, dest, distance);
     }
+
     return graph;
 }
-
-
-
