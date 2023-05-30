@@ -18,8 +18,8 @@ using namespace std;
 class ReadData {
 public:
     ReadData();
-    Graph readNormalGraph(const string &filename);
-    Graph readLargeGraph(const string &filename);
+    static Graph readNormalGraph(const string &filename);
+    static Graph readLargeGraph(const string &filename);
 };
 
 

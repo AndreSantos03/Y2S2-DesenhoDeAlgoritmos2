@@ -2,15 +2,17 @@
 // Created by NASA on 21/05/2023.
 //
 
+#include <utility>
+
 #include "../../include/graph/VertexEdge.h"
 
 /************************* Vertex  **************************/
 
 Vertex::Vertex(int id) : id(id), visited(false) {}
 
-Vertex::Vertex(int id, std::string label) : id(id), label(label), visited(false) {}
+Vertex::Vertex(int id, std::string label) : id(id), label(std::move(label)), visited(false) {}
 
-Vertex::Vertex(int id, int longitude, int latitude) : id(id), longitude(longitude), latitude(latitude), visited(false) {}
+Vertex::Vertex(int id, double longitude, double latitude) : id(id), longitude(longitude), latitude(latitude), visited(false) {}
 
 bool Vertex::operator<(const Vertex &vertex) const {
     return this->dist < vertex.dist;
@@ -36,11 +38,11 @@ bool Vertex::getVisited() const {
     return visited;
 }
 
-int Vertex::getLongitude() const {
+double Vertex::getLongitude() const {
     return longitude;
 }
 
-int Vertex::getLatitude() const {
+double Vertex::getLatitude() const {
     return latitude;
 }
 
@@ -56,8 +58,8 @@ void Vertex::setId(int info) {
     this->id = info;
 }
 
-void Vertex::setDist(double dist) {
-    this->dist = dist;
+void Vertex::setDist(double dist_) {
+    this->dist = dist_;
 }
 
 void Vertex::setVisited(bool info) {
@@ -97,7 +99,7 @@ void Vertex::removeOutgoingEdges() {
     }
 }
 
-void Vertex::deleteEdge(Edge *edge) {
+void Vertex::deleteEdge(Edge *edge) const {
     Vertex *dest = edge->getDest();
     // Remove the corresponding edge from the incoming list
     auto it = dest->incoming.begin();
@@ -131,6 +133,6 @@ Edge *Edge::getReverse() const {
     return reverse;
 }
 
-void Edge::setReverse(Edge *reverse) {
-    this->reverse = reverse;
+void Edge::setReverse(Edge *reverse_) {
+    this->reverse = reverse_;
 }

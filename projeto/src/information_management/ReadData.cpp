@@ -4,8 +4,7 @@
 
 #include "../../include/information_management/ReadData.h"
 
-ReadData::ReadData() {
-}
+ReadData::ReadData() = default;
 
 Graph ReadData::readNormalGraph(const string &filename) {
     ifstream file(filename);
@@ -32,12 +31,12 @@ Graph ReadData::readNormalGraph(const string &filename) {
             double distance = stof(distanceS);
 
             if (!graph.findVertex(source)) {
-                Vertex* vertex1 = new Vertex(source);
+                auto* vertex1 = new Vertex(source);
                 graph.addVertex(vertex1);
             }
 
             if (!graph.findVertex(dest)) {
-                Vertex* vertex2 = new Vertex(dest);
+                auto* vertex2 = new Vertex(dest);
                 graph.addVertex(vertex2);
             }
 
@@ -100,7 +99,7 @@ Graph ReadData::readLargeGraph(const string &filename) {
         int id = stoi(idS);
         double longitude = stof(longitudeS);
         double latitude = stof(latitudeS);
-        Vertex* v = new Vertex(id, longitude, latitude);
+        auto* v = new Vertex(id, longitude, latitude);
         graph.addVertex(v);
     }
 

@@ -10,24 +10,24 @@ class Edge;
 
 class Vertex {
 public:
-    Vertex(int id);
+    explicit Vertex(int id);
     Vertex(int id, std::string label);
-    Vertex(int id, int longitude, int latitude);
+    Vertex(int id, double longitude, double latitude);
 
     bool operator<(const Vertex& vertex) const;
 
-    int getId() const;
-    double getDist() const;
-    std::vector<Edge*> getAdj() const;
-    std::vector<Edge*> getIncoming() const;
-    bool getVisited() const;
-    int getLongitude() const;
-    int getLatitude() const;
-    std::string getLabel() const;
-    bool isVisited() const;
+    [[nodiscard]] int getId() const;
+    [[nodiscard]] double getDist() const;
+    [[nodiscard]] std::vector<Edge*> getAdj() const;
+    [[nodiscard]] std::vector<Edge*> getIncoming() const;
+    [[nodiscard]] bool getVisited() const;
+    [[nodiscard]] double getLongitude() const;
+    [[nodiscard]] double getLatitude() const;
+    [[nodiscard]] std::string getLabel() const;
+    [[nodiscard]] bool isVisited() const;
 
     void setId(int info);
-    void setDist(double dist);
+    void setDist(double dist_);
     void setVisited(bool info);
 
     Edge* addEdge(Vertex* dest, double w);
@@ -37,14 +37,14 @@ public:
 protected:
     int id;
     std::string label;
-    int longitude;
-    int latitude;
+    double longitude{};
+    double latitude{};
     std::vector<Edge*> adj;
     std::vector<Edge*> incoming;
-    double dist;
+    double dist{};
     bool visited;
 
-    void deleteEdge(Edge* edge);
+    void deleteEdge(Edge* edge) const;
 };
 
 /********************** Edge ****************************/
@@ -53,12 +53,12 @@ class Edge {
 public:
     Edge(Vertex* orig, Vertex* dest, double w);
 
-    Vertex* getDest() const;
-    Vertex* getOrig() const;
-    double getWeight() const;
-    Edge* getReverse() const;
+    [[nodiscard]] Vertex* getDest() const;
+    [[nodiscard]] Vertex* getOrig() const;
+    [[nodiscard]] double getWeight() const;
+    [[nodiscard]] Edge* getReverse() const;
 
-    void setReverse(Edge* reverse);
+    void setReverse(Edge* reverse_);
 
 private:
     Vertex* orig;
