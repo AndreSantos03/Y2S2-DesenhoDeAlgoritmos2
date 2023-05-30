@@ -7,6 +7,7 @@
 
 
 #include "Graph.h"
+#include "VertexEdge.h"
 
 
 using namespace std;
@@ -20,7 +21,7 @@ public:
 
     void setGraph(Graph graph);
 
-    vector<int> backtracking();
+    void backtracking(std::vector<int>& path, std::vector<bool>& visited, double &min_cost, double cost_so_far);
 
 private:
 

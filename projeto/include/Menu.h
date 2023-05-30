@@ -14,6 +14,7 @@ class Menu {
 public:
     Menu();
     void display();
+    void chooseGraphs();
     void setGraphNormalFile(const string &filename);
     void setGraphLargeFile(const string &filename);
 

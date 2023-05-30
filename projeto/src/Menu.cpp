@@ -4,6 +4,7 @@
 
 #include "../include/Menu.h"
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -21,30 +22,35 @@ void Menu::setGraphLargeFile(const string &filename) {
     graph = data.readLargeGraph(filename);
 }
 
-
 void Menu::display() {
     int choice;
+    std::vector<int> path; // Vetor para armazenar o caminho atual
+    std::vector<bool> visited(graph.getNumVertex(), false); // Vetor para controlar os vértices visitados
+    double min_cost = std::numeric_limits<double>::max();
     do {
         cout << "=============== MENU ===============" << endl;
-        cout << "CHOOSE THE GRAPHS:" << endl;
-        cout << "1. Toy Graphs" << endl;
-        cout << "2. Medium Graphs" << endl;
-        cout << "3. Real World Graphs" << endl;
-        cout << "4. Exit" << endl;
+        cout << "1. Select Graph" << endl;
+        cout << "2. Less Path" << endl;
+        cout << "3. --------" << endl;
+        cout << "4. --------" << endl;
+        cout << "5. Exit" << endl;
         cout << "Choose an option:";
         cin >> choice;
 
         switch (choice) {
             case 1:
-                toyGraphs();
+                chooseGraphs();
                 break;
             case 2:
-                mediumGraphs();
+                path.push_back(0); // Adicionar o vértice inicial ao caminho
+                visited[0] = true; // Marcar o vértice inicial como visitado
+                algorithms.backtracking(path, visited, min_cost, 0.0);
+                cout << min_cost << endl;
                 break;
             case 3:
-                realWorldGraphs();
+                loadDataSet();
                 break;
-            case 4:
+            case 5:
                 cout << "Closing the program..." << endl;
                 break;
             default:
@@ -53,6 +59,39 @@ void Menu::display() {
 
         cout << endl;
     } while (choice != 5);
+}
+
+void Menu::chooseGraphs() {
+    int choice;
+    do {
+        cout << endl;
+        cout << "CHOOSE THE GRAPHS:" << endl;
+        cout << "1. Toy Graphs" << endl;
+        cout << "2. Medium Graphs" << endl;
+        cout << "3. Real World Graphs" << endl;
+        cout << "4. Return" << endl;
+        cout << "Choose an option:";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                toyGraphs();
+                return;
+            case 2:
+                mediumGraphs();
+                return;
+            case 3:
+                realWorldGraphs();
+                return;
+            case 4:
+                cout << "Returning..." << endl;
+                return;
+            default:
+                cout << endl <<"Invalid option. Choose again." << endl;
+        }
+
+        cout << endl;
+    } while (choice != 4);
 }
 
 void Menu::loadDataSet() {
@@ -84,15 +123,14 @@ void Menu::toyGraphs() {
 
         switch (choice) {
             case 1:
-                setGraphNormalFile("../projeto/data/real_world_graphs/shipping.csv");
-                break;
+                setGraphNormalFile("../projeto/data/toy_graphs/shipping.csv");
+                return;
             case 2:
                 setGraphNormalFile("../projeto/data/toy_graphs/stadiums.csv");
-                loadDataSet();
-                break;
+                return;
             case 3:
                 setGraphNormalFile("../projeto/data/toy_graphs/tourism.csv");
-                break;
+                return;
             case 4:
                 cout << "Returning..." << endl;
                 return;
@@ -117,41 +155,40 @@ void Menu::mediumGraphs() {
                 return;
             case 25:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_25.csv");
-                break;
+                return;
             case 50:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_50.csv");
-                break;
+                return;
             case 75:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_75.csv");
-                break;
+                return;
             case 100:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_100.csv");
-                loadDataSet();
-                break;
+                return;
             case 200:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_200.csv");
-                break;
+                return;
             case 300:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_300.csv");
-                break;
+                return;
             case 400:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_400.csv");
-                break;
+                return;
             case 500:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_500.csv");
-                break;
+                return;
             case 600:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_600.csv");
-                break;
+                return;
             case 700:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_700.csv");
-                break;
+                return;
             case 800:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_800.csv");
-                break;
+                return;
             case 900:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_900.csv");
-                break;
+                return;
             default:
                 cout << endl << "Invalid option. Choose again." << endl;
         }
@@ -171,14 +208,13 @@ void Menu::realWorldGraphs() {
         switch (choice) {
             case 1:
                 setGraphLargeFile("../projeto/data/real_world_graphs/graph1");
-                loadDataSet();
-                break;
+                return;
             case 2:
                 setGraphLargeFile("../projeto/data/real_world_graphs/graph2");
-                break;
+                return;
             case 3:
                 setGraphLargeFile("../projeto/data/real_world_graphs/graph3");
-                break;
+                return;
             case 4:
                 cout << "Returning..." << endl;
                 return;
