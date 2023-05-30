@@ -17,6 +17,7 @@ public:
     bool removeVertex(int id);
     void addEdge(const int &source, const int &dest, double w) const;
     void addBidirectionalEdge(const int &source, const int &dest, double w) const;
+    [[nodiscard]] bool isEmpty() const;
 
     [[nodiscard]] int getNumVertex() const;
     [[nodiscard]] std::vector<Vertex *> getVertexSet () const;
