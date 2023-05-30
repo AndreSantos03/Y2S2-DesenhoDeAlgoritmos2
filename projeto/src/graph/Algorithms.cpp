@@ -2,15 +2,18 @@
 // Created by NASA on 25/05/2023.
 //
 
+#include <utility>
+
 #include "../../include/graph/Algorithms.h"
 
-Algorithms::Algorithms(Graph graph) : graph(graph) {}
+Algorithms::Algorithms(Graph graph) : graph(std::move(graph)) {}
 
 
 
-void Algorithms::setGraph(Graph graph) {
-    this->graph = graph;
+void Algorithms::setGraph(Graph graph_) {
+    this->graph = std::move(graph_);
 }
+
 
 void Algorithms::setAllNonVisited() {
     for(auto v : graph.getVertexSet()){

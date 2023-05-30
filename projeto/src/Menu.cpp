@@ -15,11 +15,11 @@ Menu::Menu() : algorithms(graph) {
 }
 
 void Menu::setGraphNormalFile(const string &filename) {
-    graph = data.readNormalGraph(filename);
+    graph = ReadData::readNormalGraph(filename);
 }
 
 void Menu::setGraphLargeFile(const string &filename) {
-    graph = data.readLargeGraph(filename);
+    graph = ReadData::readLargeGraph(filename);
 }
 
 void Menu::display() {

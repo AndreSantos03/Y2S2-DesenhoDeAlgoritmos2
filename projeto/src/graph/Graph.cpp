@@ -15,7 +15,7 @@ Vertex* Graph::findVertex(const int& id) const {
     }
     return nullptr;
 }
-int Graph::findVertexIdx(const int& id) const {
+unsigned int Graph::findVertexIdx(const int& id) const {
     for (unsigned i = 0; i < vertexSet.size(); i++) {
         if (vertexSet[i]->getId() == id) {
             return i;
@@ -52,11 +52,11 @@ bool Graph::removeVertex(int id) {
 }
 
 void Graph::addVertex(int id){
-    Vertex* v = new Vertex(id);
+    auto* v = new Vertex(id);
     vertexSet.push_back(v);
 }
 
-void Graph::addEdge(const int &source, const int &dest, double w) {
+void Graph::addEdge(const int &source, const int &dest, double w) const {
     Vertex* v1 = findVertex(source);
     Vertex* v2 = findVertex(dest);
     if (v1 && v2) {
@@ -64,7 +64,7 @@ void Graph::addEdge(const int &source, const int &dest, double w) {
     }
 }
 
-void Graph::addBidirectionalEdge(const int &source, const int &dest, double w) {
+void Graph::addBidirectionalEdge(const int &source, const int &dest, double w) const {
     Vertex* v1 = findVertex(source);
     Vertex* v2 = findVertex(dest);
     if (v1 && v2) {
@@ -77,7 +77,7 @@ void Graph::addBidirectionalEdge(const int &source, const int &dest, double w) {
 
 
 int Graph::getNumVertex() const {
-    return vertexSet.size();
+    return (int) vertexSet.size();
 }
 
 std::vector<Vertex *> Graph::getVertexSet() const {
@@ -95,7 +95,7 @@ double Graph::dijkstra(int src, int dest) {
 
     std::priority_queue<std::pair<double,int>,std::vector<std::pair<double,int>>,Comp> q;
 
-    q.push({0,src});
+    q.emplace(0,src);
 
     while (!q.empty()) {
         auto curr = q.top();
@@ -106,7 +106,7 @@ double Graph::dijkstra(int src, int dest) {
 
         for(auto e: findVertex(curr.second)->getAdj()){
             if(e->getDest()->getId() != curr.second && !e->getDest()->getVisited()){
-                q.push({curr.first+e->getWeight(),e->getDest()->getId()});
+                q.emplace(curr.first+e->getWeight(),e->getDest()->getId());
             }
         }
     }

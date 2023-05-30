@@ -10,16 +10,16 @@
 
 class Graph {
 public:
-    Vertex *findVertex(const int &id) const;
-    int findVertexIdx(const int &id) const;
+    [[nodiscard]] Vertex *findVertex(const int &id) const;
+    [[nodiscard]] unsigned int findVertexIdx(const int &id) const;
     void addVertex(Vertex* vertex);
     void addVertex(int id);
     bool removeVertex(int id);
-    void addEdge(const int &source, const int &dest, double w);
-    void addBidirectionalEdge(const int &source, const int &dest, double w);
+    void addEdge(const int &source, const int &dest, double w) const;
+    void addBidirectionalEdge(const int &source, const int &dest, double w) const;
 
-    int getNumVertex() const;
-    std::vector<Vertex *> getVertexSet () const;
+    [[nodiscard]] int getNumVertex() const;
+    [[nodiscard]] std::vector<Vertex *> getVertexSet () const;
 
     double dijkstra(int src, int dest);
 

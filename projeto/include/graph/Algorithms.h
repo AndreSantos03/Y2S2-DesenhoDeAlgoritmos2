@@ -17,9 +17,9 @@ class Algorithms {
 public:
 
 
-    Algorithms(Graph graph);
+    explicit Algorithms(Graph graph);
 
-    void setGraph(Graph graph);
+    void setGraph(Graph graph_);
 
     void backtracking(std::vector<int>& path, std::vector<bool>& visited, double &min_cost, double cost_so_far);
 
