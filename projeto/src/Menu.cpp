@@ -69,7 +69,7 @@ void Menu::chooseGraphs() {
     int choice;
     do {
         cout << endl;
-        cout << "CHOOSE THE GRAPH:" << endl;
+        cout << "=============== GRAPH SELECTOR ===============" << endl;
         cout << "1. Toy Graphs" << endl;
         cout << "2. Medium Graphs" << endl;
         cout << "3. Real World Graphs" << endl;
@@ -117,7 +117,7 @@ void Menu::toyGraphs() {
     int choice;
     do {
         cout << endl;
-        cout << "CHOOSE THE GRAPH:" << endl;
+        cout << "=============== TOY GRAPH SELECTOR ===============" << endl;
         cout << "1. Shipping Graph" << endl;
         cout << "2. Stadiums Graph" << endl;
         cout << "3. Tourism Graph" << endl;
@@ -151,7 +151,7 @@ void Menu::mediumGraphs() {
 
     do {
         cout << endl;
-        cout << "CHOOSE THE GRAPH SIZE:" << endl;
+        cout << "=============== MEDIUM GRAPH SELECTOR ===============" << endl;
         cout << "1. 25 vertices" << endl;
         cout << "2. 50 vertices" << endl;
         cout << "3. 75 vertices" << endl;
@@ -222,7 +222,7 @@ void Menu::realWorldGraphs() {
 
     do {
         cout << endl;
-        cout << "CHOOSE THE GRAPH DIRECTORY:" << endl;
+        cout << "=============== REAL WORLD GRAPH SELECTOR ===============" << endl;
         cout << "1. Graph 1" << endl;
         cout << "2. Graph 2" << endl;
         cout << "3. Graph 3" << endl;
