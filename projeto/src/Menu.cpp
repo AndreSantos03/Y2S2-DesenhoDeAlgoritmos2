@@ -24,9 +24,6 @@ void Menu::setGraphLargeFile(const string &filename) {
 
 void Menu::display() {
     int choice;
-    std::vector<int> path; // Vetor para armazenar o caminho atual
-    std::vector<bool> visited(graph.getNumVertex(), false); // Vetor para controlar os vértices visitados
-    double min_cost = std::numeric_limits<double>::max();
     do {
         cout << "=============== MENU ===============" << endl;
         cout << "1. Select Graph" << endl;
@@ -42,10 +39,12 @@ void Menu::display() {
                 chooseGraphs();
                 break;
             case 2:
-                path.push_back(0); // Adicionar o vértice inicial ao caminho
-                visited[0] = true; // Marcar o vértice inicial como visitado
-                algorithms.backtracking(path, visited, min_cost, 0.0);
-                cout << min_cost << endl;
+                if(!graph.isEmpty()) {
+                    backtracking_menu();
+                } else {
+                    cout << endl;
+                    cout << "The graph is empty. Please load a graph first." << endl;
+                }
                 break;
             case 3:
                 loadDataSet();
@@ -65,7 +64,7 @@ void Menu::chooseGraphs() {
     int choice;
     do {
         cout << endl;
-        cout << "CHOOSE THE GRAPHS:" << endl;
+        cout << "CHOOSE THE GRAPH:" << endl;
         cout << "1. Toy Graphs" << endl;
         cout << "2. Medium Graphs" << endl;
         cout << "3. Real World Graphs" << endl;
@@ -85,7 +84,7 @@ void Menu::chooseGraphs() {
                 return;
             case 4:
                 cout << "Returning..." << endl;
-                return;
+                break;
             default:
                 cout << endl <<"Invalid option. Choose again." << endl;
         }
@@ -133,7 +132,7 @@ void Menu::toyGraphs() {
                 return;
             case 4:
                 cout << "Returning..." << endl;
-                return;
+                break;
             default:
                 cout << endl << "Invalid option. Choose again." << endl;
         }
@@ -144,65 +143,86 @@ void Menu::toyGraphs() {
 
 void Menu::mediumGraphs() {
     int choice;
+
     do {
         cout << endl;
-        cout << "CHOOSE THE GRAPH (25/50/75/100/200/300/400/500/600/700/800/900 or 1 to return):";
+        cout << "CHOOSE THE GRAPH SIZE:" << endl;
+        cout << "1. 25 vertices" << endl;
+        cout << "2. 50 vertices" << endl;
+        cout << "3. 75 vertices" << endl;
+        cout << "4. 100 vertices" << endl;
+        cout << "5. 200 vertices" << endl;
+        cout << "6. 300 vertices" << endl;
+        cout << "7. 400 vertices" << endl;
+        cout << "8. 500 vertices" << endl;
+        cout << "9. 600 vertices" << endl;
+        cout << "10. 700 vertices" << endl;
+        cout << "11. 800 vertices" << endl;
+        cout << "12. 900 vertices" << endl;
+        cout << "13. Return" << endl;
+        cout << "Enter the number corresponding to the desired size: ";
         cin >> choice;
 
         switch (choice) {
             case 1:
-                cout << "Returning..." << endl;
-                return;
-            case 25:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_25.csv");
                 return;
-            case 50:
+            case 2:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_50.csv");
                 return;
-            case 75:
+            case 3:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_75.csv");
                 return;
-            case 100:
+            case 4:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_100.csv");
                 return;
-            case 200:
+            case 5:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_200.csv");
                 return;
-            case 300:
+            case 6:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_300.csv");
                 return;
-            case 400:
+            case 7:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_400.csv");
                 return;
-            case 500:
+            case 8:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_500.csv");
                 return;
-            case 600:
+            case 9:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_600.csv");
                 return;
-            case 700:
+            case 10:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_700.csv");
                 return;
-            case 800:
+            case 11:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_800.csv");
                 return;
-            case 900:
+            case 12:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_900.csv");
                 return;
+            case 13:
+                cout << "Returning..." << endl;
+                break;
             default:
                 cout << endl << "Invalid option. Choose again." << endl;
+                break;
         }
 
         cout << endl;
-    } while (choice != 1);
+    } while (choice != 13);
 }
 
 void Menu::realWorldGraphs() {
     int choice;
+
     do {
         cout << endl;
-        cout << "CHOOSE THE GRAPH DIRECTORY(1/2/3 or 4 to return):" << endl;
-        cout << "Choose an option:";
+        cout << "CHOOSE THE GRAPH DIRECTORY:" << endl;
+        cout << "1. Graph 1" << endl;
+        cout << "2. Graph 2" << endl;
+        cout << "3. Graph 3" << endl;
+        cout << "4. Return" << endl;
+        cout << "Choose an option: ";
         cin >> choice;
 
         switch (choice) {
@@ -217,13 +237,23 @@ void Menu::realWorldGraphs() {
                 return;
             case 4:
                 cout << "Returning..." << endl;
-                return;
+                break;
             default:
                 cout << endl << "Invalid option. Choose again." << endl;
+                break;
         }
 
         cout << endl;
     } while (choice != 4);
 }
 
+
+void Menu::backtracking_menu(){
+    std::vector<int> path = {0}; // Vetor para armazenar o caminho atual
+    std::vector<bool> visited(graph.getNumVertex(), false); // Vetor para controlar os vértices visitados
+    double min_cost = std::numeric_limits<double>::max();
+    visited[0] = true;
+    algorithms.backtracking(path, visited, min_cost, 0.0);
+    cout << min_cost << endl;
+}
 

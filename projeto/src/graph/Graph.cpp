@@ -113,5 +113,9 @@ double Graph::dijkstra(int src, int dest) {
     return -1;
 }
 
+bool Graph::isEmpty() const {
+    return vertexSet.empty();
+}
+
 
 

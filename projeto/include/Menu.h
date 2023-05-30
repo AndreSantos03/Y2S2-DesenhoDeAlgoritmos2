@@ -29,6 +29,8 @@ private:
     void toyGraphs();
     void mediumGraphs();
     void realWorldGraphs();
+
+    void backtracking_menu();
 };
 
 
