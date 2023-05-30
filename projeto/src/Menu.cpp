@@ -47,7 +47,12 @@ void Menu::display() {
                 }
                 break;
             case 3:
-                loadDataSet();
+                if(!graph.isEmpty()) {
+                    loadDataSet();
+                } else {
+                    cout << endl;
+                    cout << "The graph is empty. Please load a graph first." << endl;
+                }
                 break;
             case 5:
                 cout << "Closing the program..." << endl;
