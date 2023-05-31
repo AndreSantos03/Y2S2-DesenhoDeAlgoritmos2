@@ -6,6 +6,7 @@
 
 #include "../../include/graph/Algorithms.h"
 
+Algorithms::Algorithms() {}
 Algorithms::Algorithms(Graph graph) : graph(std::move(graph)) {}
 
 
@@ -57,9 +58,102 @@ void Algorithms::backtracking(std::vector<int>& path, std::vector<bool>& visited
     }
 }
 
+vector<Vertex *> Algorithms::clusterBasedAlgorithm(int source, int dest, int numClusters) {
+    vector<Vertex *> path;
+    int n = graph.getNumVertex();
+    vector<vector<Vertex*>> clusters;
+    vector<vector<Vertex*>> clusterPaths;
 
-/*
-vector<int> Algorithms::btLoop() {
-    if(lab)
+    Vertex* firstVertex = graph.findVertex(0);
+    double minX = firstVertex->getLatitude(), maxX = firstVertex->getLatitude();
+    double minY = firstVertex->getLongitude(), maxY = firstVertex->getLongitude();
+
+    for(auto v : graph.getVertexSet()){
+        if (v->getLatitude() < minX)
+            minX = v->getLatitude();
+        if (v->getLatitude() > maxX)
+            maxX = v->getLatitude();
+        if (v->getLongitude() < minY)
+            minY = v->getLongitude();
+        if (v->getLongitude() > maxY)
+            maxY = v->getLongitude();
+
+        v->setVisited(false);
+    }
+
+    double clusterSizeX = (maxX - minX) / numClusters;
+    double clusterSizeY = (maxY - minY) / numClusters;
+
+    for (auto v : graph.getVertexSet()) {
+        int clusterX = floor((v->getLatitude() - minX) / clusterSizeX);
+        int clusterY = floor((v->getLongitude() - minY) / clusterSizeY);
+        int clusterIndex = clusterY * numClusters + clusterX;
+        clusters[clusterIndex].push_back(v);
+    }
+    int count = 0;
+    for(auto cluster : clusters){
+        clusterPaths[count].push_back(cluster[0]);
+        cluster[0]->setVisited(true);
+        for(int i = 0; i<cluster.size()-1;i++){
+            Vertex * nextVertex = findNearestVertexCluster(clusterPaths[count][i],cluster);
+            clusterPaths[count].push_back(nextVertex);
+            cluster.erase(find(cluster.begin(),cluster.end(),nextVertex));
+            nextVertex->setVisited(true);
+        }
+        count++;
+    }
+
+    for(auto cluster : clusters){
+        path.insert(path.end(),cluster.begin(),cluster.end());
+    }
+    return path;
 }
-*/
+
+
+
+double Algorithms::calculatePathCost(vector<Vertex *> path) {
+    double cost = 0;
+    for(int  i = 0; i < path.size()-1;i++){
+        cost += path[i]->getEdge(path[i+1])->getWeight();
+    }
+    return cost;
+}
+
+double Algorithms::calculateDistance(Vertex *source, Vertex *dest) {
+    double lat1 = source->getLatitude();
+    double lat2 = dest->getLatitude();
+    double lon1 = source->getLongitude();
+    double lon2 = dest->getLongitude();
+
+    double dLat = (lat2 - lat1) *
+                  M_PI / 180.0;
+    double dLon = (lon2 - lon1) *
+                  M_PI / 180.0;
+
+    // convert to radians
+    lat1 = (lat1) * M_PI / 180.0;
+    lat2 = (lat2) * M_PI / 180.0;
+
+    // apply formulae
+    double a = pow(sin(dLat / 2), 2) +
+               pow(sin(dLon / 2), 2) *
+               cos(lat1) * cos(lat2);
+    double rad = 6371;
+    double c = 2 * asin(sqrt(a));
+    return rad * c;
+}
+
+Vertex *Algorithms::findNearestVertexCluster(Vertex *current, vector<Vertex *> cluster) {
+    Vertex* nearest;
+    double dist = numeric_limits<double>::max();
+    for(auto e : current->getAdj()){
+        if(e->getWeight() < dist && find(cluster.begin(),cluster.end(),e->getDest()) != cluster.end()){
+            nearest = e->getDest();
+            dist = e->getWeight();
+        }
+    }
+
+    return nearest;
+}
+
+

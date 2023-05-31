@@ -8,6 +8,9 @@
 
 #include "Graph.h"
 #include "VertexEdge.h"
+#include <algorithm>
+#include <cmath>
+
 
 
 using namespace std;
@@ -16,6 +19,7 @@ using namespace std;
 class Algorithms {
 public:
 
+    Algorithms();
 
     explicit Algorithms(Graph graph);
 
@@ -23,9 +27,12 @@ public:
 
     void backtracking(std::vector<int>& path, std::vector<bool>& visited, double &min_cost, double cost_so_far);
 
-private:
+    vector<Vertex *> clusterBasedAlgorithm(int source, int dest,int numClusters);
 
-    vector<int> btLoop();
+private:
+    double calculatePathCost(vector<Vertex*> path);
+    double calculateDistance(Vertex* source, Vertex* dest);
+    Vertex* findNearestVertexCluster(Vertex* current,vector<Vertex*> cluster);
     void setAllNonVisited();
 
     Graph graph;
