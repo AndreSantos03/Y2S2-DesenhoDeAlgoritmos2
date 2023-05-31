@@ -20,13 +20,13 @@ public:
     explicit Algorithms(Graph graph);
 
     void setGraph(Graph graph_);
+    void setAllNonVisited();
 
-    void backtracking(std::vector<int>& path, std::vector<bool>& visited, double &min_cost, double cost_so_far);
+    double backtracking(Vertex *curr_vertex, std::vector<bool> &visited, int count, double weight, double min_weight, Vertex *start_vertex, std::vector<int> &min_path, std::vector<int> &curr_path);
 
 private:
 
     vector<int> btLoop();
-    void setAllNonVisited();
 
     Graph graph;
 };
