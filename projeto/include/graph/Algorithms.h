@@ -27,7 +27,7 @@ public:
 
     void backtracking(std::vector<int>& path, std::vector<bool>& visited, double &min_cost, double cost_so_far);
 
-    vector<Vertex *> clusterBasedAlgorithm(int source, int dest,int numClusters);
+    vector<Vertex *> clusterBasedAlgorithm(int numClusters);
 
 private:
     double calculatePathCost(vector<Vertex*> path);

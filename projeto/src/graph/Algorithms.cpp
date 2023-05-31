@@ -58,7 +58,7 @@ void Algorithms::backtracking(std::vector<int>& path, std::vector<bool>& visited
     }
 }
 
-vector<Vertex *> Algorithms::clusterBasedAlgorithm(int source, int dest, int numClusters) {
+vector<Vertex *> Algorithms::clusterBasedAlgorithm(int numClusters) {
     vector<Vertex *> path;
     int n = graph.getNumVertex();
     vector<vector<Vertex*>> clusters;

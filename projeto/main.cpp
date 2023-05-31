@@ -4,8 +4,7 @@
 using namespace std;
 
 int main() {
-
- /*   Menu menu;
+    Menu menu;
     menu.display();
-    return 0;*/
+    return 0;
 }

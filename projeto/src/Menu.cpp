@@ -29,7 +29,7 @@ void Menu::display() {
         cout << "1. Load/Change Graph" << endl;
         cout << "2. Less Path" << endl;
         cout << "3. --------" << endl;
-        cout << "4. --------" << endl;
+        cout << "4. Other Heuristics" << endl;
         cout << "5. Exit" << endl;
         cout << "Choose an option:";
         cin >> choice;
@@ -49,6 +49,14 @@ void Menu::display() {
             case 3:
                 if(!graph.isEmpty()) {
                     loadDataSet();
+                } else {
+                    cout << endl;
+                    cout << "The graph is empty. Please load a graph first." << endl;
+                }
+                break;
+            case 4:
+                if(!graph.isEmpty()) {
+                    otherHeuristicsMenu();
                 } else {
                     cout << endl;
                     cout << "The graph is empty. Please load a graph first." << endl;
@@ -260,5 +268,37 @@ void Menu::backtracking_menu(){
     visited[0] = true;
     algorithms.backtracking(path, visited, min_cost, 0.0);
     cout << min_cost << endl;
+}
+
+void Menu::otherHeuristicsMenu() {
+    string choice;
+    while(true){
+        cout << "=============== Other Heuristics ===============" << endl;
+        cout << "1. Cluster Based Algorithm" << endl;
+        cout << "4. Return" << endl;
+        cin >> choice;
+        if(choice == "1"){
+            while(true){
+                cout << "Choose number of clusters: ";
+                choice = cin_int();
+                for(auto v:algorithms.clusterBasedAlgorithm(stoi(choice))){
+                    cout << v->getId() << endl;
+                }
+            }
+        }
+    }
+
+}
+
+int Menu::cin_int()
+{
+    int choice = 0;
+    cin >> choice;
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    return choice;
 }
 

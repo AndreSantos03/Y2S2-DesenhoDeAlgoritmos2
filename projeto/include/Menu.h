@@ -7,6 +7,8 @@
 
 #include "information_management/ReadData.h"
 #include "graph/Algorithms.h"
+#include <string>
+#include <sstream>
 
 
 
@@ -31,6 +33,9 @@ private:
     void realWorldGraphs();
 
     void backtracking_menu();
+    void otherHeuristicsMenu();
+
+    int cin_int();
 };
 
 
