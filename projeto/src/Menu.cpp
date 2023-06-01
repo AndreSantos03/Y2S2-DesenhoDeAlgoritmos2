@@ -16,10 +16,12 @@ Menu::Menu() : algorithms(graph) {
 
 void Menu::setGraphNormalFile(const string &filename) {
     graph = ReadData::readNormalGraph(filename);
+    algorithms.setGraph(graph);
 }
 
 void Menu::setGraphLargeFile(const string &filename) {
     graph = ReadData::readLargeGraph(filename);
+    algorithms.setGraph(graph);
 }
 
 void Menu::display() {
@@ -280,10 +282,12 @@ void Menu::otherHeuristicsMenu() {
         if(choice == "1"){
             while(true){
                 cout << "Choose number of clusters: ";
-                choice = cin_int();
-                for(auto v:algorithms.clusterBasedAlgorithm(stoi(choice))){
+                int clusterNum = cin_int();
+                vector<Vertex*> path = algorithms.clusterBasedAlgorithm(clusterNum);
+                for(auto v:path){
                     cout << v->getId() << endl;
                 }
+                break;
             }
         }
     }

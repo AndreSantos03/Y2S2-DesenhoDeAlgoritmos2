@@ -3,6 +3,7 @@
 //
 
 #include <utility>
+#include <queue>
 
 #include "../../include/graph/Algorithms.h"
 
@@ -60,54 +61,89 @@ void Algorithms::backtracking(std::vector<int>& path, std::vector<bool>& visited
 
 vector<Vertex *> Algorithms::clusterBasedAlgorithm(int numClusters) {
     vector<Vertex *> path;
-    int n = graph.getNumVertex();
-    vector<vector<Vertex*>> clusters;
-    vector<vector<Vertex*>> clusterPaths;
 
-    Vertex* firstVertex = graph.findVertex(0);
-    double minX = firstVertex->getLatitude(), maxX = firstVertex->getLatitude();
-    double minY = firstVertex->getLongitude(), maxY = firstVertex->getLongitude();
+    int n = graph.getNumVertex();
+
+    vector<vector<Vertex*>> clusters(numClusters);
+    vector<vector<Vertex*>> clusterPaths(numClusters);
+
+    vector<double> longitudes;
+    vector<double> latitudes;
+
+    //split into squares, the num of clusters must always be pair, prioritize longitude spacing as its values will vary mor
+    int sectorsX = numClusters / 2;
+    cout << "sectorsX: " << sectorsX << endl;
+    int sectorsY = numClusters / sectorsY;
+    cout << "sectorsY: " << sectorsX << endl;
 
     for(auto v : graph.getVertexSet()){
-        if (v->getLatitude() < minX)
-            minX = v->getLatitude();
-        if (v->getLatitude() > maxX)
-            maxX = v->getLatitude();
-        if (v->getLongitude() < minY)
-            minY = v->getLongitude();
-        if (v->getLongitude() > maxY)
-            maxY = v->getLongitude();
-
+        longitudes.push_back(v->getLongitude());
+        latitudes.push_back(v->getLatitude());
         v->setVisited(false);
     }
+    sort(longitudes.begin(),longitudes.end());
+    sort(latitudes.begin(),latitudes.end());
 
-    double clusterSizeX = (maxX - minX) / numClusters;
-    double clusterSizeY = (maxY - minY) / numClusters;
+    double minLon = longitudes[numClusters];
+    double minLat = latitudes[numClusters];
+
+    cout << "minLon: " << minLon<< endl;
+    cout << "minLat: " << minLat << endl;
+
+    cout << "midlat: " << latitudes[numClusters/2] << endl;
+    cout << "midlon: " << longitudes[numClusters/2] << endl;
+
+    double clusterSizeLon = (longitudes[numClusters/2] - longitudes[0]) * 2 / sectorsY;
+    cout << "clusterSizeLon: " << clusterSizeLon << endl;
+    double clusterSizeLat = (latitudes[numClusters/2] - latitudes[0]) * 2 / sectorsX;
+    cout << "clusterSizeLat: " << clusterSizeLat << endl;
+
 
     for (auto v : graph.getVertexSet()) {
-        int clusterX = floor((v->getLatitude() - minX) / clusterSizeX);
-        int clusterY = floor((v->getLongitude() - minY) / clusterSizeY);
-        int clusterIndex = clusterY * numClusters + clusterX;
+        int clusterX = (v->getLongitude() - minLon) / clusterSizeLon;
+        int clusterY =(v->getLatitude() - minLat) / clusterSizeLat;
+        cout << " x: " << (v->getLongitude() - minLon) << endl;
+        cout << " // " << clusterSizeLon << endl;
+        cout << " y: " << (v->getLatitude() - minLat) << endl;
+        cout << " // " << clusterSizeLat << endl;
+        cout << "cluster x: " << clusterX << endl;
+        cout << "cluster y: " << clusterY << endl;
+        int clusterIndex = clusterY * sectorsX + clusterX - 1 ;
+        cout << "cluster index: " << clusterIndex<< endl;
         clusters[clusterIndex].push_back(v);
+    }
+
+    for(auto c : clusters){
+        cout << c.size() << "cluster size" << endl;
     }
     int count = 0;
     for(auto cluster : clusters){
+        cout << "23231" << endl;
         clusterPaths[count].push_back(cluster[0]);
+        cout << "434334" << endl;
+
         cluster[0]->setVisited(true);
+        cout << "12321312" << endl;
+
         for(int i = 0; i<cluster.size()-1;i++){
             Vertex * nextVertex = findNearestVertexCluster(clusterPaths[count][i],cluster);
             clusterPaths[count].push_back(nextVertex);
             cluster.erase(find(cluster.begin(),cluster.end(),nextVertex));
             nextVertex->setVisited(true);
         }
+        cout << "655757" << endl;
+
         count++;
     }
+    cout << "3" << endl;
 
     for(auto cluster : clusters){
         path.insert(path.end(),cluster.begin(),cluster.end());
     }
+    cout << "4" << endl;
     return path;
 }
+
 
 
 
