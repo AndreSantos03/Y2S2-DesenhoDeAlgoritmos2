@@ -26,7 +26,7 @@ public:
     [[nodiscard]] double getLatitude() const;
     [[nodiscard]] std::string getLabel() const;
     [[nodiscard]] bool isVisited() const;
-    Edge *getPath() const;
+    [[nodiscard]] Edge *getPath() const;
 
     void setId(int info);
     void setDist(double dist_);
@@ -41,11 +41,11 @@ public:
 protected:
     int id;
     std::string label;
-    double longitude{};
-    double latitude{};
+    double longitude;
+    double latitude;
     std::vector<Edge*> adj;
     std::vector<Edge*> incoming;
-    double dist{};
+    double dist;
     bool visited = false;
     Edge *path = nullptr;
 

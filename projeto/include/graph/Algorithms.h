@@ -23,24 +23,17 @@ public:
 
     void setGraph(Graph graph_);
 
-    void backtracking(std::vector<int>& path, std::vector<bool>& visited, double &min_cost, double cost_so_far);
+    void setAllNonVisited();
 
-    void primMST(Graph graph);
+    double backtracking(Vertex *curr_vertex, std::vector<bool> &visited, int count, double weight, double min_weight, Vertex *start_vertex, std::vector<int> &min_path, std::vector<int> &curr_path);
 
-    int minKey(int key[], bool mstSet[]);
-
-    int printMST(int parent[], Graph graph);
-
-    double dfs(Vertex* vertex);
+    double primMST(Graph graph);
 
 private:
 
     vector<int> btLoop();
-    void setAllNonVisited();
 
     Graph graph;
-
-    std::vector<Vertex *> MST;
 };
 
 
