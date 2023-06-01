@@ -58,12 +58,12 @@ Graph ReadData::readNormalGraph(const string &filename) {
             double distance = stof(distanceS);
 
             if (!graph.findVertex(source)) {
-                Vertex vertex1 = Vertex(source, sourceLabel);
-                graph.addVertex(&vertex1);
+                auto* vertex1 = new Vertex(source, sourceLabel);
+                graph.addVertex(vertex1);
             }
             if (!graph.findVertex(dest)) {
-                Vertex vertex2 = Vertex(dest, destLabel);
-                graph.addVertex(&vertex2);
+                auto* vertex2 = new Vertex(dest, destLabel);
+                graph.addVertex(vertex2);
             }
 
             graph.addBidirectionalEdge(source, dest, distance);
