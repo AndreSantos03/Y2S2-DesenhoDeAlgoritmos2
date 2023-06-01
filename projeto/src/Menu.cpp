@@ -54,6 +54,16 @@ void Menu::display() {
                     cout << "The graph is empty. Please load a graph first." << endl;
                 }
                 break;
+            case 4:
+                if(!graph.isEmpty()){
+                    algorithms.primMST(graph);
+                    double res = algorithms.dfs(graph.findVertex(0));
+                    cout << res;
+                }else {
+                    cout << endl;
+                    cout << "The graph is empty. Please load a graph first." << endl;
+                }
+                break;
             case 5:
                 cout << "Closing the program..." << endl;
                 break;

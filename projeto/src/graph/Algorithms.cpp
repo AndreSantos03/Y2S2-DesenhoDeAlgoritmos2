@@ -57,6 +57,52 @@ void Algorithms::backtracking(std::vector<int>& path, std::vector<bool>& visited
     }
 }
 
+void Algorithms::primMST(Graph graph) {
+    for(auto v : graph.getVertexSet()){
+        v->setDist(INF);
+        v->setPath(nullptr);
+        v->setVisited(false);
+    }
+
+    Vertex* s = graph.getVertexSet().front();
+    s->setDist(0);
+
+    MutablePriorityQueue<Vertex> q;
+    q.insert(s);
+
+    while(!q.empty()){
+        auto v = q.extractMin();
+        v->setVisited(true);
+        for(auto &e : v->getAdj()) {
+            Vertex* w = e->getDest();
+            if (!w->isVisited()) {
+                auto oldDist = w->getDist();
+                if(e->getWeight() < oldDist) {
+                    w->setDist(e->getWeight());
+                    w->setPath(e);
+                    if (oldDist == INF) {
+                        q.insert(w);
+                    }
+                    else {
+                        q.decreaseKey(w);
+                    }
+                }
+            }
+        }
+    }
+}
+
+double Algorithms::dfs(Vertex* vertex) {
+    cout << vertex->getId() << " ";
+
+    double total = vertex->getPath()->getWeight();
+
+    for (auto& e : vertex->getAdj()) {
+        if(e->getDest()->getPath() != e) continue;
+        total += dfs(e->getDest());
+    }
+    return total;
+}
 
 /*
 vector<int> Algorithms::btLoop() {
