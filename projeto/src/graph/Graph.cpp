@@ -1,7 +1,3 @@
-//
-// Created by NASA on 21/05/2023.
-//
-
 #include "../../include/graph/Graph.h"
 #include <xmath.h>
 #include <queue>
