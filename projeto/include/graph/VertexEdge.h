@@ -70,7 +70,6 @@ public:
      * @brief Check if the vertex has been visited.
      * @return True if the vertex has been visited, False otherwise.
      */
-    [[nodiscard]] bool getVisited() const;
 
     /**
      * @brief Get the longitude of the vertex.

@@ -141,7 +141,7 @@ double Graph::dijkstra(int src, int dest) {
         findVertex(curr.second)->setDist(curr.first);
 
         for(auto e: findVertex(curr.second)->getAdj()){
-            if(e->getDest()->getId() != curr.second && !e->getDest()->getVisited()){
+            if(e->getDest()->getId() != curr.second && !e->getDest()->isVisited()){
                 q.emplace(curr.first+e->getWeight(),e->getDest()->getId());
             }
         }

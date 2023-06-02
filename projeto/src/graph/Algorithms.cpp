@@ -80,23 +80,18 @@ vector<Vertex *> Algorithms::clusterBasedAlgorithm(int numClusters) {
 
 
     int count = 0;
+    int clusterSize = clusters[0].size();
     for(auto &cluster : clusters){
         clusterPaths[count].push_back(cluster[0]);
-
-        cluster[0]->setVisited(true);
-
-        for(int i = 0; i<cluster.size()-1;i++){
+        for(int i = 0; i<clusterSize-1;i++){
             Vertex * nextVertex = findNearestVertexCluster(clusterPaths[count][i],cluster);
             clusterPaths[count].push_back(nextVertex);
             cluster.erase(find(cluster.begin(),cluster.end(),nextVertex));
-            nextVertex->setVisited(true);
         }
-
         count++;
     }
 
     for(auto cluster : clusterPaths){
-        cout << cluster.size() << endl;
         path.insert(path.end(),cluster.begin(),cluster.end());
     }
 

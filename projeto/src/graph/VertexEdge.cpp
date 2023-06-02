@@ -31,9 +31,6 @@ std::vector<Edge *> Vertex::getIncoming() const {
     return this->incoming;
 }
 
-bool Vertex::getVisited() const {
-    return visited;
-}
 
 double Vertex::getLongitude() const {
     return longitude;
