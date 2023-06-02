@@ -149,24 +149,27 @@ double Graph::dijkstra(int src, int dest) {
     return -1;
 }
 
+void Graph::dfs(Vertex* v, std::vector<bool>& visited) const {
+    visited[findVertexIdx(v->getId())] = true;
+
+    for (auto edge : v->getAdj()) {
+        Vertex* dest = edge->getDest();
+        if (!visited[findVertexIdx(dest->getId())]) {
+            dfs(dest, visited);
+        }
+    }
+}
+
 bool Graph::isEmpty() const {
     return vertexSet.empty();
 }
 
 vector<Vertex*> Graph::findEulerianPath() {
     vector<Vertex*> path;
-    vector<Edge*> edges;
 
     // Verifica se o grafo é conexo
     if (!isConnected()) {
         return path;
-    }
-
-    // Copia as arestas da MST para uma lista
-    for (auto v : vertexSet) {
-        for (auto e : v->getAdj()) {
-            edges.push_back(e);
-        }
     }
 
     // Encontra um vértice inicial com grau ímpar
@@ -184,60 +187,52 @@ vector<Vertex*> Graph::findEulerianPath() {
     }
 
     // Realiza o percurso Euleriano
-    dfsEulerian(startVertex, edges, path);
+    dfsEulerian(startVertex, path);
 
     return path;
 }
 
-void Graph::dfsEulerian(Vertex* v, vector<Edge*>& edges, vector<Vertex*>& path) {
-    while (!edges.empty()) {
-        Edge* e = edges.front();
-        edges.erase(edges.begin());
+void Graph::dfsEulerian(Vertex* v, vector<Vertex*>& path) {
+    while (!v->getAdj().empty()) {
+        Edge* e = v->getAdj().front();
+        Vertex* dest = e->getDest();
 
-        if (!e->getDest()->isVisited()) {
-            e->getDest()->setVisited(true);
+        v->removeEdge(dest->getId());
+        dest->removeEdge(v->getId());
 
-            Vertex* dest = e->getDest();
-            dfsEulerian(dest, edges, path);
-
-            path.push_back(dest);
-        }
+        dfsEulerian(dest, path);
     }
+
+    path.push_back(v);
 }
 
 vector<Vertex*> Graph::findHamiltonianPath() {
     vector<Vertex*> path;
     vector<bool> visited(getNumVertex(), false);
 
-    // Encontra um vértice inicial
-    Vertex* startVertex = nullptr;
+    // Realiza o percurso Hamiltoniano a partir de cada vértice
     for (auto v : vertexSet) {
-        if (v->getAdj().size() % 2 != 0) {
-            startVertex = v;
-            break;
+        path.push_back(v);
+        if (dfsHamiltonian(v, visited, path)) {
+            return path;
         }
+        path.clear();
+        visited.assign(getNumVertex(), false);
     }
-
-    // Se não encontrou um vértice com grau ímpar, seleciona um vértice qualquer
-    if (startVertex == nullptr) {
-        startVertex = vertexSet.front();
-    }
-    cout << "teste" << endl;
-    // Realiza o percurso Hamiltoniano
-    dfsHamiltonian(startVertex, visited, path);
-
-    // Adiciona o vértice inicial novamente para formar um ciclo
-    path.push_back(startVertex);
 
     return path;
 }
 
 bool Graph::dfsHamiltonian(Vertex* v, vector<bool>& visited, vector<Vertex*>& path) {
-    visited[v->getId()] = true;
+    if (path.size() == vertexSet.size()) {
+        return true;  // Encontrou um caminho Hamiltoniano completo
+    }
 
-    for (auto e : vertexSet[v->getId()]->getAdj()) {
+    visited[findVertexIdx(v->getId())] = true;
+
+    for (auto e : v->getAdj()) {
         Vertex* dest = e->getDest();
-        if (!visited[dest->getId()]) {
+        if (!visited[findVertexIdx(dest->getId())]) {
             path.push_back(dest);
 
             if (dfsHamiltonian(dest, visited, path)) {
@@ -248,13 +243,8 @@ bool Graph::dfsHamiltonian(Vertex* v, vector<bool>& visited, vector<Vertex*>& pa
         }
     }
 
-    // Verifica se todos os vértices foram visitados
-    for (bool item : visited) {
-        if (!item) {
-            return false;
-        }
-    }
+    visited[findVertexIdx(v->getId())] = false;
 
-    return true;
+    return false;  // Não encontrou um caminho Hamiltoniano completo
 }
 
