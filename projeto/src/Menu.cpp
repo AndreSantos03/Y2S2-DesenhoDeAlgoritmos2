@@ -306,7 +306,7 @@ void Menu::otherHeuristicsMenu() {
         cout << "=============== Other Heuristics ===============" << endl;
         cout << "1. Cluster Based Algorithm" << endl;
         cout << "2. Christofides Algorithm" << endl;
-        cout << "2. Nearest Neighbor Algorithm" << endl;
+        cout << "3. Nearest Neighbor Algorithm" << endl;
         cout << "4. Return" << endl;
         cout << "Choose an option:";
         cin >> choice;
@@ -327,13 +327,13 @@ void Menu::otherHeuristicsMenu() {
                         for (auto v: path) {
                             cout << v->getId();
                             if (v != path.back()) {
-                                cout << " ---> ";
+                                cout << " ==> ";
                             }
                             else{
                                 cout << endl;
                             }
                         }
-                        cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << "." << endl;
+                        cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << " meters." << endl;
                         cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
                         break;
                     }
@@ -365,19 +365,19 @@ void Menu::otherHeuristicsMenu() {
                 for (auto v: path) {
                     cout << v->getId();
                     if (v != path.back()) {
-                        cout << " ---> ";
+                        cout << " ==> ";
                     }
                     else{
                         cout << endl;
                     }
                 }
-                cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << "." << endl;
+                cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << " meters." << endl;
                 cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
                 break;
             }
             case 4:
                 cout << "Returning..." << endl;
-                break;
+                return;
             default: {
                 cout << "Invalid option. Choose again." << endl;
                 break;
