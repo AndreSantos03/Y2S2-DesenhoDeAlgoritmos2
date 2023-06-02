@@ -306,6 +306,7 @@ void Menu::otherHeuristicsMenu() {
         cout << "=============== Other Heuristics ===============" << endl;
         cout << "1. Cluster Based Algorithm" << endl;
         cout << "2. Christofides Algorithm" << endl;
+        cout << "2. Nearest Neighbor Algorithm" << endl;
         cout << "4. Return" << endl;
         cout << "Choose an option:";
         cin >> choice;
@@ -332,6 +333,7 @@ void Menu::otherHeuristicsMenu() {
                                 cout << endl;
                             }
                         }
+                        cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << "." << endl;
                         cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
                         break;
                     }
@@ -354,7 +356,22 @@ void Menu::otherHeuristicsMenu() {
                 }
             }
             case 3: {
-                return;
+                clock_t start = clock();
+                vector<Vertex *> path = algorithms.nearestNeighbor();
+                clock_t end = clock();
+                cout << "The Path is as followed: " << endl;
+                for (auto v: path) {
+                    cout << v->getId();
+                    if (v != path.back()) {
+                        cout << " ---> ";
+                    }
+                    else{
+                        cout << endl;
+                    }
+                }
+                cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << "." << endl;
+                cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+                break;
             }
             case 4:
                 cout << "Returning..." << endl;

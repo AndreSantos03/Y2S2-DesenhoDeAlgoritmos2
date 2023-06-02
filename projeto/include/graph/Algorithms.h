@@ -74,15 +74,15 @@ public:
      */
     std::vector<Vertex*> christofidesTSP();
 
-    Vertex *findNearestVertexCluster(Vertex *current, vector<Vertex *> cluster);
-private:
+    vector<Vertex*> nearestNeighbor();
+
     /**
      * @brief Calculate the cost of a given path.
      * @param path The path for which to calculate the cost.
      * @return The cost of the path.
      */
-    double calculatePathCost(std::vector<Vertex*> path);
-
+    static double calculatePathCost(std::vector<Vertex*> path);
+private:
 
     /**
      * @brief Calculate the Euclidean distance between two vertices.
@@ -92,7 +92,11 @@ private:
      */
     static double calculateDistance(Vertex* source, Vertex* dest);
 
+    Vertex *findNearestVertex(Vertex *current, vector<Vertex *> cluster);
+    Vertex *findNearestVertex(Vertex *current);
+
     Graph graph;    /**< The graph used by the algotirhms. */
+
 };
 
 #endif

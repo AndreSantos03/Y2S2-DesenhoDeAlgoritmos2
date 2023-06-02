@@ -84,7 +84,7 @@ vector<Vertex *> Algorithms::clusterBasedAlgorithm(int numClusters) {
     for(auto &cluster : clusters){
         clusterPaths[count].push_back(cluster[0]);
         for(int i = 0; i<clusterSize-1;i++){
-            Vertex * nextVertex = findNearestVertexCluster(clusterPaths[count][i],cluster);
+            Vertex * nextVertex = findNearestVertex(clusterPaths[count][i],cluster);
             clusterPaths[count].push_back(nextVertex);
             cluster.erase(find(cluster.begin(),cluster.end(),nextVertex));
         }
@@ -286,6 +286,21 @@ vector<Vertex*> Algorithms::christofidesTSP() {
     return finalPath;
 }
 
+vector<Vertex *> Algorithms::nearestNeighbor() {
+    for(auto v: graph.getVertexSet()){
+        v->setVisited(false);
+    }
+    vector<Vertex*> path;
+    Vertex* firstVertex = graph.findVertex(0);
+    firstVertex->setVisited(true);
+    path.push_back(firstVertex);
+    for(int i = 0; i < graph.getNumVertex()-2;i++){
+        Vertex* next = findNearestVertex(path[i]);
+        next->setVisited(true);
+        path.push_back(next);
+    }
+    return path;
+}
 
 
 double Algorithms::calculatePathCost(vector<Vertex *> path) {
@@ -320,7 +335,7 @@ double Algorithms::calculateDistance(Vertex *source, Vertex *dest) {
     return rad * c;
 }
 
-Vertex *Algorithms::findNearestVertexCluster(Vertex *current, vector<Vertex *> cluster) {
+Vertex *Algorithms::findNearestVertex(Vertex *current, vector<Vertex *> cluster) {
     Vertex* nearest;
     double dist = numeric_limits<double>::max();
     for(auto e : current->getAdj()){
@@ -332,6 +347,23 @@ Vertex *Algorithms::findNearestVertexCluster(Vertex *current, vector<Vertex *> c
 
     return nearest;
 }
+
+Vertex *Algorithms::findNearestVertex(Vertex *current) {
+    Vertex* nearest;
+    double dist = numeric_limits<double>::max();
+    for(auto e : current->getAdj()){
+        if(e->getWeight() < dist && !e->getDest()->isVisited()){
+            nearest = e->getDest();
+            dist = e->getWeight();
+        }
+    }
+
+    return nearest;
+}
+
+
+
+
 
 
 
