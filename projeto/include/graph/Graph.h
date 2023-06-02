@@ -26,6 +26,16 @@ public:
 
     double dijkstra(int src, int dest);
 
+    bool isConnected() const;
+
+    vector<Vertex*> findEulerianPath();
+
+    void dfsEulerian(Vertex* v, vector<Edge *> &edges, vector<Vertex*> &path);
+
+    vector<Vertex*> findHamiltonianPath();
+
+    bool dfsHamiltonian(Vertex* v, vector<bool> &visited, vector<Vertex*> &path);
+
 private:
     std::vector<Vertex *> vertexSet;
     class Comp {
