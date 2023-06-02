@@ -49,7 +49,7 @@ void Menu::display() {
                     clock_t start = clock();
                     double value = algorithms.primMST();
                     clock_t end = clock();
-                    cout << "The graph has a minimum distance of: " << value << "." << endl;
+                    cout << "The graph has a minimum distance of: " << value << " meters." << endl;
                     cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
                 } else {
                     cout << endl;
@@ -287,7 +287,7 @@ void Menu::backtracking_menu(){
     clock_t end = clock();
 
     double minDistance = algorithms.backtracking(src, visited, count, weight, min_weight, src, min_path, curr_path);
-    cout << endl << "The graph has a minimum distance of: " << minDistance <<"."<< endl;
+    cout << endl << "The graph has a minimum distance of: " << minDistance <<" meters."<< endl;
     cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
     cout << "The path is: ";
     for (int i = 0; i < min_path.size(); i++) {
@@ -345,6 +345,7 @@ void Menu::otherHeuristicsMenu() {
                 vector<Vertex*> path = algorithms.christofidesTSP();
                 clock_t end = clock();
                 cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+                cout << "The path is: ";
                 for (int i = 0; i < path.size(); i++) {
                     cout << path[i]->getId();
                     if (i != path.size() - 1) {
@@ -354,6 +355,7 @@ void Menu::otherHeuristicsMenu() {
                         cout << endl;
                     }
                 }
+                cout << endl;
             }
             case 3: {
                 clock_t start = clock();
