@@ -143,6 +143,45 @@ vector<Vertex *> Algorithms::clusterBasedAlgorithm(int numClusters) {
     return path;
 }
 
+double Algorithms::primMST(Graph graph) {
+    for(auto &v : graph.getVertexSet()){
+        v->setDist(std::numeric_limits<double>::max());
+        v->setPath(nullptr);
+        v->setVisited(false);
+    }
+
+    Vertex* s = graph.getVertexSet().front();
+    s->setDist(0);
+
+    MutablePriorityQueue<Vertex> q;
+    q.insert(s);
+
+
+    double out = 0;
+
+    while(!q.empty()){
+        auto v = q.extractMin();
+        if(v->getPath() != nullptr ) out += v->getPath()->getWeight()*2;
+        v->setVisited(true);
+        for(auto &e : v->getAdj()) {
+            Vertex* w = e->getDest();
+            if (!w->isVisited()) {
+                auto oldDist = w->getDist();
+                if(e->getWeight() < oldDist) {
+                    w->setDist(e->getWeight());
+                    w->setPath(e);
+                    if (oldDist == std::numeric_limits<double>::max()) {
+                        q.insert(w);
+                    }
+                    else {
+                        q.decreaseKey(w);
+                    }
+                }
+            }
+        }
+    }
+    return out;
+}
 
 
 

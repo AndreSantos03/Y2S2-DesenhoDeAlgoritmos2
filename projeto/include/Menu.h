@@ -27,7 +27,6 @@ private:
     ReadData data;
     Algorithms algorithms;
 
-    void loadDataSet();
     void toyGraphs();
     void mediumGraphs();
     void realWorldGraphs();

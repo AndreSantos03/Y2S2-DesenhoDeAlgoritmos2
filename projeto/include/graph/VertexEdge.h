@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "MutablePriorityQueue.h"
 
 class Edge;
 
@@ -25,25 +26,31 @@ public:
     [[nodiscard]] double getLatitude() const;
     [[nodiscard]] std::string getLabel() const;
     [[nodiscard]] bool isVisited() const;
+    [[nodiscard]] Edge *getPath() const;
     Edge* getEdge(Vertex* dest);
 
     void setId(int info);
     void setDist(double dist_);
     void setVisited(bool info);
+    void setPath(Edge *path);
 
     Edge* addEdge(Vertex* dest, double w);
     bool removeEdge(int destID);
     void removeOutgoingEdges();
 
+    friend class MutablePriorityQueue<Vertex>;
 protected:
     int id;
     std::string label;
-    double longitude{};
-    double latitude{};
+    double longitude;
+    double latitude;
     std::vector<Edge*> adj;
     std::vector<Edge*> incoming;
-    double dist{};
-    bool visited;
+    double dist;
+    bool visited = false;
+    Edge *path = nullptr;
+
+    int queueIndex = 0;                // required by MutablePriorityQueue and UFDS
 
     void deleteEdge(Edge* edge) const;
 };

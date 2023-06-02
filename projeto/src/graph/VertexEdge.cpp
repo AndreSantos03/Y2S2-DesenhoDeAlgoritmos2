@@ -55,6 +55,10 @@ bool Vertex::isVisited() const {
     return visited;
 }
 
+Edge *Vertex::getPath() const{
+    return this->path;
+}
+
 void Vertex::setId(int info) {
     this->id = info;
 }
@@ -65,6 +69,10 @@ void Vertex::setDist(double dist_) {
 
 void Vertex::setVisited(bool info) {
     visited = info;
+}
+
+void Vertex::setPath(Edge *path){
+    this->path = path;
 }
 
 Edge *Vertex::addEdge(Vertex *dest, double w) {

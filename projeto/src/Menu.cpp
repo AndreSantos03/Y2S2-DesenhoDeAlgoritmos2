@@ -30,7 +30,7 @@ void Menu::display() {
         cout << "=============== MENU ===============" << endl;
         cout << "1. Load/Change Graph" << endl;
         cout << "2. Less Path" << endl;
-        cout << "3. --------" << endl;
+        cout << "3. Triangle 2-Approximation Algorithm" << endl;
         cout << "4. Other Heuristics" << endl;
         cout << "5. Exit" << endl;
         cout << "Choose an option:";
@@ -50,7 +50,7 @@ void Menu::display() {
                 break;
             case 3:
                 if(!graph.isEmpty()) {
-                    loadDataSet();
+                    cout << algorithms.primMST(graph);
                 } else {
                     cout << endl;
                     cout << "The graph is empty. Please load a graph first." << endl;
@@ -108,20 +108,6 @@ void Menu::chooseGraphs() {
     } while (choice != 4);
 }
 
-void Menu::loadDataSet() {
-    vector<Vertex*> vertices = graph.getVertexSet();
-    if (vertices.empty()) {
-        cout << "O conjunto de vértices está vazio." << endl;
-    } else {
-        cout << "Lista de arestas:" << endl;
-        for (Vertex* vertex : vertices) {
-            for (Edge* edge : vertex->getAdj()) {
-                cout << "Origem: " << vertex->getId() << " Destino: " << edge->getDest()->getId() << endl;
-                cout << endl;
-            }
-        }
-    }
-}
 
 void Menu::toyGraphs() {
     int choice;
@@ -281,6 +267,14 @@ void Menu::backtracking_menu(){
     double minDistance = algorithms.backtracking(src, visited, count, weight, min_weight, src, min_path, curr_path);
     cout << endl << "The graph has a minimum distance of: " << minDistance <<"."<< endl;
     cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+    cout << "The path is: ";
+    for (int i = 0; i < min_path.size(); i++) {
+        cout << min_path[i];
+        if (i != min_path.size() - 1) {
+            cout << " ==> ";
+        }
+    }
+    cout << endl;
 }
 
 void Menu::otherHeuristicsMenu() {
