@@ -317,7 +317,7 @@ void Menu::otherHeuristicsMenu() {
                     cout << "Choose number of clusters (it must be a multiple of 4: 4,8,12, ... ):";
                     int clusterNum;
                     cin >> clusterNum;
-                    if (clusterNum % 4 != 0) {
+                    if (clusterNum % 4 != 0 && clusterNum != 0) {
                         cout << clusterNum << " is not a multiple of 4!" << endl << endl;
                     } else {
                         clock_t start = clock();
