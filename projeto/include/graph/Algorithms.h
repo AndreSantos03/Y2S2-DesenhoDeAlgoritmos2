@@ -9,7 +9,10 @@
 #include "Graph.h"
 #include "VertexEdge.h"
 #include <xmath.h>
+#include <algorithm>
+#include <cmath>
 #include "MutablePriorityQueue.h"
+
 
 
 using namespace std;
@@ -18,6 +21,7 @@ using namespace std;
 class Algorithms {
 public:
 
+    Algorithms();
 
     explicit Algorithms(Graph graph);
 
@@ -29,10 +33,13 @@ public:
 
     double primMST(Graph graph);
 
+    vector<Vertex *> clusterBasedAlgorithm(int numClusters);
+
 private:
-
+    double calculatePathCost(vector<Vertex*> path);
+    double calculateDistance(Vertex* source, Vertex* dest);
+    Vertex* findNearestVertexCluster(Vertex* current,vector<Vertex*> cluster);
     vector<int> btLoop();
-
     Graph graph;
 };
 

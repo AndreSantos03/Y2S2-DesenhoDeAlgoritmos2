@@ -19,6 +19,7 @@ Graph ReadData::readNormalGraph(const string &filename) {
     }
 
     if (filename != "../projeto/data/toy_graphs/tourism.csv") {
+        unordered_set<int> loadedInts;
         while (getline(file, fileLine)) {
             stringstream ss(fileLine);
             string sourceS, destS, distanceS;
@@ -30,19 +31,23 @@ Graph ReadData::readNormalGraph(const string &filename) {
             int dest = stoi(destS);
             double distance = stof(distanceS);
 
-            if (!graph.findVertex(source)) {
+            if (loadedInts.find(source) == loadedInts.end()) {
                 auto* vertex1 = new Vertex(source);
                 graph.addVertex(vertex1);
+                loadedInts.insert(source);
             }
-
-            if (!graph.findVertex(dest)) {
+            if (loadedInts.find(dest) == loadedInts.end()) {
                 auto* vertex2 = new Vertex(dest);
                 graph.addVertex(vertex2);
+                loadedInts.insert(dest);
             }
+
 
             graph.addBidirectionalEdge(source, dest, distance);
         }
     } else {
+        unordered_set<int> loadedInts;
+
         while (getline(file, fileLine)) {
             stringstream ss(fileLine);
             string sourceS, destS, distanceS, sourceLabel, destLabel;
@@ -57,23 +62,27 @@ Graph ReadData::readNormalGraph(const string &filename) {
             int dest = stoi(destS);
             double distance = stof(distanceS);
 
-            if (!graph.findVertex(source)) {
-                auto* vertex1 = new Vertex(source, sourceLabel);
+            if (loadedInts.find(source) == loadedInts.end()) {
+                auto* vertex1 = new Vertex(source);
                 graph.addVertex(vertex1);
+                loadedInts.insert(source);
             }
-            if (!graph.findVertex(dest)) {
-                auto* vertex2 = new Vertex(dest, destLabel);
+
+            if (loadedInts.find(dest) == loadedInts.end()) {
+                auto* vertex2 = new Vertex(dest);
                 graph.addVertex(vertex2);
+                loadedInts.insert(dest);
             }
+
 
             graph.addBidirectionalEdge(source, dest, distance);
         }
     }
-
     return graph;
 }
 
 Graph ReadData::readLargeGraph(const string &filename) {
+
     string fileNodesName = filename + "/nodes.csv";
     string fileEdgesName = filename + "/edges.csv";
     ifstream fileNodes(fileNodesName);

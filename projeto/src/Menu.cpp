@@ -10,17 +10,19 @@ using namespace std;
 
 
 Menu::Menu() : algorithms(graph) {
-    data = ReadData();
     algorithms = Algorithms(graph);
 }
 
 void Menu::setGraphNormalFile(const string &filename) {
     graph = ReadData::readNormalGraph(filename);
+    algorithms.setGraph(graph);
 }
 
 void Menu::setGraphLargeFile(const string &filename) {
     graph = ReadData::readLargeGraph(filename);
+    algorithms.setGraph(graph);
 }
+
 
 void Menu::display() {
     int choice;
@@ -28,8 +30,8 @@ void Menu::display() {
         cout << "=============== MENU ===============" << endl;
         cout << "1. Load/Change Graph" << endl;
         cout << "2. Less Path" << endl;
-        cout << "3. --------" << endl;
-        cout << "4. Triangler 2-Approximation Algorithm" << endl;
+        cout << "3. Triangle 2-Approximation Algorithm" << endl;
+        cout << "4. Other Heuristics" << endl;
         cout << "5. Exit" << endl;
         cout << "Choose an option:";
         cin >> choice;
@@ -48,16 +50,16 @@ void Menu::display() {
                 break;
             case 3:
                 if(!graph.isEmpty()) {
-                    loadDataSet();
+                    cout << algorithms.primMST(graph);
                 } else {
                     cout << endl;
                     cout << "The graph is empty. Please load a graph first." << endl;
                 }
                 break;
             case 4:
-                if(!graph.isEmpty()){
-                    cout << algorithms.primMST(graph);
-                }else {
+                if(!graph.isEmpty()) {
+                    otherHeuristicsMenu();
+                } else {
                     cout << endl;
                     cout << "The graph is empty. Please load a graph first." << endl;
                 }
@@ -106,20 +108,6 @@ void Menu::chooseGraphs() {
     } while (choice != 4);
 }
 
-void Menu::loadDataSet() {
-    vector<Vertex*> vertices = graph.getVertexSet();
-    if (vertices.empty()) {
-        cout << "O conjunto de vértices está vazio." << endl;
-    } else {
-        cout << "Lista de arestas:" << endl;
-        for (Vertex* vertex : vertices) {
-            for (Edge* edge : vertex->getAdj()) {
-                cout << "Origem: " << vertex->getId() << " Destino: " << edge->getDest()->getId() << endl;
-                cout << endl;
-            }
-        }
-    }
-}
 
 void Menu::toyGraphs() {
     int choice;
@@ -279,5 +267,48 @@ void Menu::backtracking_menu(){
     double minDistance = algorithms.backtracking(src, visited, count, weight, min_weight, src, min_path, curr_path);
     cout << endl << "The graph has a minimum distance of: " << minDistance <<"."<< endl;
     cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+    cout << "The path is: ";
+    for (int i = 0; i < min_path.size(); i++) {
+        cout << min_path[i];
+        if (i != min_path.size() - 1) {
+            cout << " ==> ";
+        }
+    }
+    cout << endl;
+}
+
+void Menu::otherHeuristicsMenu() {
+    string choice;
+    while(true){
+        cout << "=============== Other Heuristics ===============" << endl;
+        cout << "1. Cluster Based Algorithm" << endl;
+        cout << "4. Return" << endl;
+        cout << "Choose an option:";
+        cin >> choice;
+        if(choice == "1"){
+            while(true){
+                cout << "Choose number of clusters:";
+                int clusterNum = cin_int();
+                vector<Vertex*> path = algorithms.clusterBasedAlgorithm(clusterNum);
+                for(auto v:path){
+                    cout << v->getId() << endl;
+                }
+                break;
+            }
+        }
+    }
+
+}
+
+int Menu::cin_int()
+{
+    int choice = 0;
+    cin >> choice;
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    return choice;
 }
 

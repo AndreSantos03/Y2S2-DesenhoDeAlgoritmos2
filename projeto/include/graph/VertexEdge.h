@@ -27,6 +27,7 @@ public:
     [[nodiscard]] std::string getLabel() const;
     [[nodiscard]] bool isVisited() const;
     [[nodiscard]] Edge *getPath() const;
+    Edge* getEdge(Vertex* dest);
 
     void setId(int info);
     void setDist(double dist_);

@@ -18,6 +18,7 @@ bool Vertex::operator<(const Vertex &vertex) const {
     return this->dist < vertex.dist;
 }
 
+
 int Vertex::getId() const {
     return this->id;
 }
@@ -119,6 +120,15 @@ void Vertex::deleteEdge(Edge *edge) const {
         }
     }
     delete edge;
+}
+
+Edge *Vertex::getEdge(Vertex *dest) {
+    for(auto e : adj){
+        if(e->getDest() == dest){
+            return e;
+        }
+    }
+    return nullptr;
 }
 
 /************************* Edge  ****************************/
