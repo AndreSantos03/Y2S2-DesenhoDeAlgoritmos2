@@ -319,15 +319,20 @@ void Menu::otherHeuristicsMenu() {
                     if (clusterNum % 4 != 0) {
                         cout << clusterNum << " is not a multiple of 4!" << endl << endl;
                     } else {
+                        clock_t start = clock();
                         vector<Vertex *> path = algorithms.clusterBasedAlgorithm(clusterNum);
+                        clock_t end = clock();
                         cout << "The Path is as followed: " << endl;
                         for (auto v: path) {
                             cout << v->getId();
                             if (v != path.back()) {
                                 cout << " ---> ";
                             }
-
+                            else{
+                                cout << endl;
+                            }
                         }
+                        cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
                         break;
                     }
                 }

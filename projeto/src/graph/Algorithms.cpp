@@ -80,7 +80,7 @@ vector<Vertex *> Algorithms::clusterBasedAlgorithm(int numClusters) {
 
 
     int count = 0;
-    for(auto cluster : clusters){
+    for(auto &cluster : clusters){
         clusterPaths[count].push_back(cluster[0]);
 
         cluster[0]->setVisited(true);
@@ -95,7 +95,8 @@ vector<Vertex *> Algorithms::clusterBasedAlgorithm(int numClusters) {
         count++;
     }
 
-    for(auto cluster : clusters){
+    for(auto cluster : clusterPaths){
+        cout << cluster.size() << endl;
         path.insert(path.end(),cluster.begin(),cluster.end());
     }
 
