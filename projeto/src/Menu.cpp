@@ -278,10 +278,11 @@ void Menu::otherHeuristicsMenu() {
         cout << "=============== Other Heuristics ===============" << endl;
         cout << "1. Cluster Based Algorithm" << endl;
         cout << "4. Return" << endl;
+        cout << "Choose an option:";
         cin >> choice;
         if(choice == "1"){
             while(true){
-                cout << "Choose number of clusters: ";
+                cout << "Choose number of clusters:";
                 int clusterNum = cin_int();
                 vector<Vertex*> path = algorithms.clusterBasedAlgorithm(clusterNum);
                 for(auto v:path){
