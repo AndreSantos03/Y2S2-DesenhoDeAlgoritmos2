@@ -42,6 +42,8 @@ private:
     Graph graph; /**< The graph used in the menu. */
     ReadData data; /**< The data object used for reading graph files. */
     Algorithms algorithms; /**< The algorithms object used for running algorithms on the graph. */
+    bool realGraph = false;
+
 
     /**
      * @brief Display the menu for toy graphs.
@@ -68,11 +70,6 @@ private:
      */
     void otherHeuristicsMenu();
 
-    /**
-     * @brief Read an integer from the user's input.
-     * @return The integer read from the input.
-     */
-    int cin_int();
 };
 
 #endif

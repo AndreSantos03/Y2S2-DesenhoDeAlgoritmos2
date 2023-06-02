@@ -26,7 +26,7 @@ void Menu::display() {
         cout << "=============== MENU ===============" << endl;
         cout << "1. Load/Change Graph" << endl;
         cout << "2. Backtracking Algorithm" << endl;
-        cout << "3. Triangle 2-Approximation Algorithm" << endl;
+        cout << "3. Triangular Approximation Algorithm" << endl;
         cout << "4. Other Heuristics" << endl;
         cout << "5. Exit" << endl;
         cout << "Choose an option:";
@@ -58,6 +58,10 @@ void Menu::display() {
                 break;
             case 4:
                 if(!graph.isEmpty()) {
+                    if(!realGraph){
+                        cout << "You must load a real graph to access this algorithms!" << endl;
+                        break;
+                    }
                     otherHeuristicsMenu();
                 } else {
                     cout << endl;
@@ -124,12 +128,15 @@ void Menu::toyGraphs() {
         switch (choice) {
             case 1:
                 setGraphNormalFile("../projeto/data/toy_graphs/shipping.csv");
+                realGraph = false;
                 return;
             case 2:
                 setGraphNormalFile("../projeto/data/toy_graphs/stadiums.csv");
+                realGraph = false;
                 return;
             case 3:
                 setGraphNormalFile("../projeto/data/toy_graphs/tourism.csv");
+                realGraph = false;
                 return;
             case 4:
                 cout << "Returning..." << endl;
@@ -167,39 +174,51 @@ void Menu::mediumGraphs() {
         switch (choice) {
             case 1:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_25.csv");
+                realGraph = false;
                 return;
             case 2:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_50.csv");
+                realGraph = false;
                 return;
             case 3:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_75.csv");
+                realGraph = false;
                 return;
             case 4:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_100.csv");
+                realGraph = false;
                 return;
             case 5:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_200.csv");
+                realGraph = false;
                 return;
             case 6:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_300.csv");
+                realGraph = false;
                 return;
             case 7:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_400.csv");
+                realGraph = false;
                 return;
             case 8:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_500.csv");
+                realGraph = false;
                 return;
             case 9:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_600.csv");
+                realGraph = false;
                 return;
             case 10:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_700.csv");
+                realGraph = false;
                 return;
             case 11:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_800.csv");
+                realGraph = false;
                 return;
             case 12:
                 setGraphNormalFile("../projeto/data/medium_graphs/edges_900.csv");
+                realGraph = false;
                 return;
             case 13:
                 cout << "Returning..." << endl;
@@ -229,12 +248,15 @@ void Menu::realWorldGraphs() {
         switch (choice) {
             case 1:
                 setGraphLargeFile("../projeto/data/real_world_graphs/graph1");
+                realGraph = true;
                 return;
             case 2:
                 setGraphLargeFile("../projeto/data/real_world_graphs/graph2");
+                realGraph = true;
                 return;
             case 3:
                 setGraphLargeFile("../projeto/data/real_world_graphs/graph3");
+                realGraph = true;
                 return;
             case 4:
                 cout << "Returning..." << endl;
@@ -291,14 +313,23 @@ void Menu::otherHeuristicsMenu() {
         switch (choice) {
             case 1: {
                 while (true) {
-                    cout << "Choose number of clusters:";
+                    cout << "Choose number of clusters (it must be a multiple of 4: 4,8,12, ... ):";
                     int clusterNum;
                     cin >> clusterNum;
-                    vector<Vertex*> path = algorithms.clusterBasedAlgorithm(clusterNum);
-                    for (auto v : path) {
-                        cout << v->getId() << endl;
+                    if (clusterNum % 4 != 0) {
+                        cout << clusterNum << " is not a multiple of 4!" << endl << endl;
+                    } else {
+                        vector<Vertex *> path = algorithms.clusterBasedAlgorithm(clusterNum);
+                        cout << "The Path is as followed: " << endl;
+                        for (auto v: path) {
+                            cout << v->getId();
+                            if (v != path.back()) {
+                                cout << " ---> ";
+                            }
+
+                        }
+                        break;
                     }
-                    break;
                 }
                 break;
             }
@@ -311,6 +342,9 @@ void Menu::otherHeuristicsMenu() {
                     cout << path[i]->getId();
                     if (i != path.size() - 1) {
                         cout << " ==> ";
+                    }
+                    else{
+                        cout << endl;
                     }
                 }
             }
@@ -326,18 +360,5 @@ void Menu::otherHeuristicsMenu() {
             }
         }
     }
-}
-
-
-int Menu::cin_int()
-{
-    int choice = 0;
-    cin >> choice;
-    if (cin.fail())
-    {
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
-    return choice;
 }
 

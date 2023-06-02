@@ -69,8 +69,13 @@ vector<Vertex *> Algorithms::clusterBasedAlgorithm(int numClusters) {
     sort(auxVec.begin(),auxVec.end(),[](Vertex* a, Vertex* b) ->bool
     {return a->getLongitude()>b->getLongitude();});
 
-    for(auto i = 0; i < numClusters ;i++){
-        clusters[i].insert(clusters[i].begin(), auxVec.begin() + n/numClusters*i , auxVec.begin() + n/numClusters*(i+1));
+    for(auto i = 0; i < numClusters ;i = i+2){
+        vector<Vertex*> auxLat(auxVec.begin() + n/numClusters*i , auxVec.begin() + n/numClusters*(i+1));
+        sort(auxLat.begin(),auxLat.end(),[](Vertex* a, Vertex* b) ->bool
+        {return a->getLatitude()>b->getLatitude();});
+
+        clusters[i].insert(clusters[i].begin(), auxLat.begin(),auxLat.begin() + n/numClusters/2);
+        clusters[i+1].insert(clusters[i+1].begin(),auxLat.begin()+n/numClusters/2,auxLat.begin() + n/numClusters);
     }
 
 
