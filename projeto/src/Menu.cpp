@@ -274,6 +274,7 @@ void Menu::backtracking_menu(){
             cout << " ==> ";
         }
     }
+
     cout << endl;
 }
 
