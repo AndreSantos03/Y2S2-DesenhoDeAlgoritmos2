@@ -50,7 +50,11 @@ void Menu::display() {
                 break;
             case 3:
                 if(!graph.isEmpty()) {
-                    cout << algorithms.primMST(graph);
+                    clock_t start = clock();
+                    double value = algorithms.primMST(graph);
+                    clock_t end = clock();
+                    cout << "The graph has a minimum distance of: " << value << "." << endl;
+                    cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
                 } else {
                     cout << endl;
                     cout << "The graph is empty. Please load a graph first." << endl;
