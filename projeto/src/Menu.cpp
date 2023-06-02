@@ -15,10 +15,12 @@ Menu::Menu() : algorithms(graph) {
 
 void Menu::setGraphNormalFile(const string &filename) {
     graph = ReadData::readNormalGraph(filename);
+    algorithms.setGraph(graph);
 }
 
 void Menu::setGraphLargeFile(const string &filename) {
     graph = ReadData::readLargeGraph(filename);
+    algorithms.setGraph(graph);
 }
 
 
@@ -29,7 +31,7 @@ void Menu::display() {
         cout << "1. Load/Change Graph" << endl;
         cout << "2. Less Path" << endl;
         cout << "3. --------" << endl;
-        cout << "4. --------" << endl;
+        cout << "4. Other Heuristics" << endl;
         cout << "5. Exit" << endl;
         cout << "Choose an option:";
         cin >> choice;
@@ -49,6 +51,14 @@ void Menu::display() {
             case 3:
                 if(!graph.isEmpty()) {
                     loadDataSet();
+                } else {
+                    cout << endl;
+                    cout << "The graph is empty. Please load a graph first." << endl;
+                }
+                break;
+            case 4:
+                if(!graph.isEmpty()) {
+                    otherHeuristicsMenu();
                 } else {
                     cout << endl;
                     cout << "The graph is empty. Please load a graph first." << endl;
@@ -271,5 +281,40 @@ void Menu::backtracking_menu(){
     double minDistance = algorithms.backtracking(src, visited, count, weight, min_weight, src, min_path, curr_path);
     cout << endl << "The graph has a minimum distance of: " << minDistance <<"."<< endl;
     cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+}
+
+void Menu::otherHeuristicsMenu() {
+    string choice;
+    while(true){
+        cout << "=============== Other Heuristics ===============" << endl;
+        cout << "1. Cluster Based Algorithm" << endl;
+        cout << "4. Return" << endl;
+        cout << "Choose an option:";
+        cin >> choice;
+        if(choice == "1"){
+            while(true){
+                cout << "Choose number of clusters:";
+                int clusterNum = cin_int();
+                vector<Vertex*> path = algorithms.clusterBasedAlgorithm(clusterNum);
+                for(auto v:path){
+                    cout << v->getId() << endl;
+                }
+                break;
+            }
+        }
+    }
+
+}
+
+int Menu::cin_int()
+{
+    int choice = 0;
+    cin >> choice;
+    if (cin.fail())
+    {
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    return choice;
 }
 

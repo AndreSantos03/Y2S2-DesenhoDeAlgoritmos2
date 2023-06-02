@@ -10,6 +10,7 @@
 #include <sstream>
 #include <vector>
 #include <iterator>
+#include <unordered_set>
 #include "../graph/Graph.h"
 
 

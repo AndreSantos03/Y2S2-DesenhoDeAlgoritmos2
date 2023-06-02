@@ -25,6 +25,7 @@ public:
     [[nodiscard]] double getLatitude() const;
     [[nodiscard]] std::string getLabel() const;
     [[nodiscard]] bool isVisited() const;
+    Edge* getEdge(Vertex* dest);
 
     void setId(int info);
     void setDist(double dist_);

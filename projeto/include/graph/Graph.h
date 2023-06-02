@@ -8,6 +8,8 @@
 
 #include "VertexEdge.h"
 
+using namespace std;
+
 class Graph {
 public:
     [[nodiscard]] Vertex *findVertex(const int &id) const;

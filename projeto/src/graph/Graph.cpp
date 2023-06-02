@@ -12,6 +12,7 @@
 Vertex* Graph::findVertex(const int& id) const {
     for (auto v : vertexSet) {
         if (v->getId() == id) {
+
             return v;
         }
     }

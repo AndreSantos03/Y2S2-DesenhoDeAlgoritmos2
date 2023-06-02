@@ -114,6 +114,15 @@ void Vertex::deleteEdge(Edge *edge) const {
     delete edge;
 }
 
+Edge *Vertex::getEdge(Vertex *dest) {
+    for(auto e : adj){
+        if(e->getDest() == dest){
+            return e;
+        }
+    }
+    return nullptr;
+}
+
 /************************* Edge  ****************************/
 
 Edge::Edge(Vertex *orig, Vertex *dest, double w) : orig(orig), dest(dest), weight(w), reverse(nullptr) {}
