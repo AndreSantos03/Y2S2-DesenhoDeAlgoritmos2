@@ -1,7 +1,3 @@
-//
-// Created by NASA on 21/05/2023.
-//
-
 #include <utility>
 
 #include "../../include/graph/VertexEdge.h"

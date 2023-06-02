@@ -1,7 +1,3 @@
-//
-// Created by diogo on 29/05/2023.
-//
-
 #include "../include/Menu.h"
 #include <iostream>
 #include <limits>

@@ -1,13 +1,9 @@
-//
-// Created by NASA on 25/05/2023.
-//
-
 #include <utility>
 #include <queue>
 
 #include "../../include/graph/Algorithms.h"
 
-Algorithms::Algorithms() {}
+Algorithms::Algorithms() = default;
 Algorithms::Algorithms(Graph graph) : graph(std::move(graph)) {}
 
 
@@ -257,7 +253,6 @@ vector<Vertex*> Algorithms::christofidesTSP() {
 
     // 5. Encontra um caminho Hamiltoniano no subgrafo com vértices de grau ímpar
     vector<Vertex*> oddPath = oddGraph.findHamiltonianPath();
-    cout << "MST4: " << endl;
 
     // 6. Combina os caminhos da MST e do subgrafo com vértices de grau ímpar
     vector<Vertex*> finalPath;
