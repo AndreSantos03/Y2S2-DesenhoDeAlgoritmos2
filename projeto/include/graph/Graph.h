@@ -104,7 +104,7 @@ public:
      * @param edges A vector of pointers to the edges traversed in the Eulerian path.
      * @param path A vector of pointers to the vertices traversed in the Eulerian path.
      */
-    void dfsEulerian(Vertex* v, vector<Edge *> &edges, vector<Vertex*> &path);
+    void dfsEulerian(Vertex* v, vector<Vertex*>& path);
 
     /**
      * @brief Find a Hamiltonian path in the graph.
@@ -120,6 +120,8 @@ public:
      * @return True if a Hamiltonian path is found, False otherwise.
      */
     bool dfsHamiltonian(Vertex* v, vector<bool> &visited, vector<Vertex*> &path);
+
+    void dfs(Vertex *v, vector<bool> &visited) const;
 
 private:
     std::vector<Vertex *> vertexSet; /**< The set of vertices in the graph */
@@ -139,6 +141,7 @@ private:
             return p1.first > p2.first;
         }
     };
+
 };
 
 #endif

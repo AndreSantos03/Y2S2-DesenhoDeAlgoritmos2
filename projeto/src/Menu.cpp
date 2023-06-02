@@ -223,7 +223,7 @@ void Menu::realWorldGraphs() {
         cout << "2. Graph 2" << endl;
         cout << "3. Graph 3" << endl;
         cout << "4. Return" << endl;
-        cout << "Choose an option: ";
+        cout << "Choose an option:";
         cin >> choice;
 
         switch (choice) {
@@ -285,13 +285,13 @@ void Menu::otherHeuristicsMenu() {
         cout << "1. Cluster Based Algorithm" << endl;
         cout << "2. Christofides Algorithm" << endl;
         cout << "4. Return" << endl;
-        cout << "Choose an option: ";
+        cout << "Choose an option:";
         cin >> choice;
 
         switch (choice) {
             case 1: {
                 while (true) {
-                    cout << "Choose number of clusters: ";
+                    cout << "Choose number of clusters:";
                     int clusterNum;
                     cin >> clusterNum;
                     vector<Vertex*> path = algorithms.clusterBasedAlgorithm(clusterNum);
@@ -308,7 +308,7 @@ void Menu::otherHeuristicsMenu() {
                 clock_t end = clock();
                 cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
                 for (int i = 0; i < path.size(); i++) {
-                    cout << path[i];
+                    cout << path[i]->getId();
                     if (i != path.size() - 1) {
                         cout << " ==> ";
                     }
