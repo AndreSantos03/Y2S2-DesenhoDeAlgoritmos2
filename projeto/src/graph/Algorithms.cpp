@@ -1,5 +1,6 @@
 #include <utility>
 #include <queue>
+#include <unordered_set>
 
 #include "../../include/graph/Algorithms.h"
 
@@ -180,40 +181,63 @@ double Algorithms::primMST() {
 }
 
 Graph Algorithms::primMSTgraph() {
-    for(auto &v : graph.getVertexSet()){
+    // Cria um novo grafo para a MST
+    Graph mstGraph;
+
+    // Verifica se o grafo original é vazio
+    if (graph.isEmpty()) {
+        return mstGraph; // Retorna um grafo vazio
+    }
+
+    // Mapeia os vértices do grafo original para os vértices da MST
+    unordered_map<int, Vertex*> vertexMap;
+
+    // Inicializa os vértices do grafo original e adiciona ao mstGraph
+    for (auto& v : graph.getVertexSet()) {
+        Vertex* newVertex = new Vertex(v->getId());
+        mstGraph.addVertex(newVertex);
+        vertexMap[v->getId()] = newVertex;
+
         v->setDist(std::numeric_limits<double>::max());
         v->setPath(nullptr);
         v->setVisited(false);
     }
 
+    // Seleciona o primeiro vértice como raiz
     Vertex* s = graph.getVertexSet().front();
     s->setDist(0);
 
+    // Fila de prioridade para os vértices a serem processados
     MutablePriorityQueue<Vertex> q;
     q.insert(s);
 
-    Graph mstGraph;
-
-    while(!q.empty()){
+    while (!q.empty()) {
         auto v = q.extractMin();
         v->setVisited(true);
 
         if (v->getPath() != nullptr) {
-            mstGraph.addEdge(v->getPath()->getOrig()->getId(), v->getPath()->getDest()->getId(), v->getPath()->getWeight());
-            mstGraph.addEdge(v->getPath()->getDest()->getId(), v->getPath()->getOrig()->getId(), v->getPath()->getWeight());
+            // Obtém os vértices de origem e destino da aresta
+            int origId = v->getPath()->getOrig()->getId();
+            int destId = v->getPath()->getDest()->getId();
+
+            // Adiciona os vértices correspondentes ao mstGraph
+            mstGraph.addVertex(vertexMap[origId]);
+            mstGraph.addVertex(vertexMap[destId]);
+
+            // Adiciona a aresta ao grafo MST
+            mstGraph.addEdge(origId, destId, v->getPath()->getWeight());
         }
 
-        for(auto &e : v->getAdj()) {
+        for (auto& e : v->getAdj()) {
             Vertex* w = e->getDest();
             if (!w->isVisited()) {
                 auto oldDist = w->getDist();
-                if(e->getWeight() < oldDist) {
+                if (e->getWeight() < oldDist) {
                     w->setDist(e->getWeight());
                     w->setPath(e);
                     if (oldDist == std::numeric_limits<double>::max()) {
                         q.insert(w);
-                    }
-                    else {
+                    } else {
                         q.decreaseKey(w);
                     }
                 }
@@ -227,6 +251,8 @@ Graph Algorithms::primMSTgraph() {
 vector<Vertex*> Algorithms::christofidesTSP() {
     // 1. Calcula a MST usando o algoritmo de Prim
     Graph mst = primMSTgraph();
+
+
     // 2. Encontra os vértices com grau ímpar na MST
     vector<Vertex*> oddVertices;
 
@@ -239,27 +265,54 @@ vector<Vertex*> Algorithms::christofidesTSP() {
 
     // 3. Constrói um subgrafo apenas com os vértices de grau ímpar
     Graph oddGraph;
+    unordered_set<int> oddVertexIds;
+
+// Adicionar os vértices ímpares ao oddGraph
     for (auto v : oddVertices) {
-        for (auto e : v->getAdj()) { // Alteração: Iterar sobre as adjacências do vértice atual (v)
-            if (find(oddVertices.begin(), oddVertices.end(), e->getDest()) != oddVertices.end()) {
-                oddGraph.addEdge(e->getOrig()->getId(), e->getDest()->getId(), e->getWeight()); // Alteração: Passar o vértice de origem e destino diretamente
+        oddGraph.addVertex(v->getId());
+        oddVertexIds.insert(v->getId());
+    }
+
+// Adicionar as arestas aos vértices ímpares no oddGraph
+    for (auto v : oddVertices) {
+        for (auto e : v->getAdj()) {
+            if (oddVertexIds.count(e->getDest()->getId()) > 0) {
+                oddGraph.addEdge(e->getOrig()->getId(), e->getDest()->getId(), e->getWeight());
             }
         }
     }
 
 
+
     // 4. Encontra um caminho Euleriano na MST
     vector<Vertex*> mstPath = mst.findEulerianPath();
+    if(mstPath.empty()) cout << "test3" <<endl;
+    else{
+        cout << "test4" <<endl;
+        for(auto v : mstPath){
+            cout << v->getId() << endl;
+        }
+    }
+
 
     // 5. Encontra um caminho Hamiltoniano no subgrafo com vértices de grau ímpar
     vector<Vertex*> oddPath = oddGraph.findHamiltonianPath();
-
+    if(oddPath.empty()) cout << "test3" <<endl;
+    else{
+        cout << "test5" <<endl;
+        for(auto v : oddPath){
+            cout << v->getId() << endl;
+        }
+    }
+    cout << "test" <<endl;
     // 6. Combina os caminhos da MST e do subgrafo com vértices de grau ímpar
     vector<Vertex*> finalPath;
     for (auto v : mstPath) {
+        cout << v->getId() << "test1" <<endl;
         finalPath.push_back(v);
     }
     for (auto v : oddPath) {
+        cout << v->getId() << "teste2" <<endl;
         finalPath.push_back(v);
     }
 
