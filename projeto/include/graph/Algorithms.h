@@ -74,6 +74,8 @@ public:
      */
     std::vector<Vertex*> christofidesTSP();
 
+    Vertex *findNearestVertexCluster(Vertex *current, vector<Vertex *> cluster);
+
 private:
     /**
      * @brief Calculate the cost of a given path.

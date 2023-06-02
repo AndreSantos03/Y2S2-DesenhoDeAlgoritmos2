@@ -25,7 +25,7 @@ void Menu::display() {
     do {
         cout << "=============== MENU ===============" << endl;
         cout << "1. Load/Change Graph" << endl;
-        cout << "2. Less Path" << endl;
+        cout << "2. Backtracking Algorithm" << endl;
         cout << "3. Triangle 2-Approximation Algorithm" << endl;
         cout << "4. Other Heuristics" << endl;
         cout << "5. Exit" << endl;
