@@ -36,6 +36,7 @@ private:
     void otherHeuristicsMenu();
 
     int cin_int();
+
 };
 
 

@@ -18,6 +18,7 @@ bool Vertex::operator<(const Vertex &vertex) const {
     return this->dist < vertex.dist;
 }
 
+
 int Vertex::getId() const {
     return this->id;
 }

@@ -10,7 +10,6 @@ using namespace std;
 
 
 Menu::Menu() : algorithms(graph) {
-    data = ReadData();
     algorithms = Algorithms(graph);
 }
 
@@ -23,6 +22,7 @@ void Menu::setGraphLargeFile(const string &filename) {
     graph = ReadData::readLargeGraph(filename);
     algorithms.setGraph(graph);
 }
+
 
 void Menu::display() {
     int choice;
@@ -264,12 +264,23 @@ void Menu::realWorldGraphs() {
 
 
 void Menu::backtracking_menu(){
-    std::vector<int> path = {0}; // Vetor para armazenar o caminho atual
-    std::vector<bool> visited(graph.getNumVertex(), false); // Vetor para controlar os vértices visitados
-    double min_cost = std::numeric_limits<double>::max();
-    visited[0] = true;
-    algorithms.backtracking(path, visited, min_cost, 0.0);
-    cout << min_cost << endl;
+    clock_t start = clock();
+    Vertex* src = graph.findVertex(0);
+    vector<bool> visited;
+    vector<int> min_path;
+    vector<int> curr_path;
+    for(int i=0;i<graph.getVertexSet().size();i++){
+        visited.push_back(false);
+    }
+    int count=0;
+    double weight=0.0;
+    double min_weight=numeric_limits<double>::max();
+
+    clock_t end = clock();
+
+    double minDistance = algorithms.backtracking(src, visited, count, weight, min_weight, src, min_path, curr_path);
+    cout << endl << "The graph has a minimum distance of: " << minDistance <<"."<< endl;
+    cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
 }
 
 void Menu::otherHeuristicsMenu() {
