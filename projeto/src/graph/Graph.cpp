@@ -78,6 +78,43 @@ void Graph::addBidirectionalEdge(const int &source, const int &dest, double w) c
     }
 }
 
+bool Graph::isConnected() const {
+    if (vertexSet.empty()) {
+        return false;  // Grafo vazio não é considerado conexo
+    }
+
+    int numVertices = getNumVertex();
+    vector<bool> visited(numVertices, false);
+
+    // Realiza uma busca em largura a partir de um vértice inicial
+    int startVertex = vertexSet.front()->getId();
+    queue<int> q;
+    q.push(startVertex);
+    visited[startVertex] = true;
+
+    while (!q.empty()) {
+        int currVertex = q.front();
+        q.pop();
+
+        for (auto edge : vertexSet[currVertex]->getAdj()) {
+            int neighbor = edge->getDest()->getId();
+            if (!visited[neighbor]) {
+                q.push(neighbor);
+                visited[neighbor] = true;
+            }
+        }
+    }
+
+    // Verifica se todos os vértices foram visitados
+    for (bool v : visited) {
+        if (!v) {
+            return false;  // Grafo não é conexo
+        }
+    }
+
+    return true;  // Grafo é conexo
+}
+
 
 int Graph::getNumVertex() const {
     return (int) vertexSet.size();
@@ -120,5 +157,108 @@ bool Graph::isEmpty() const {
     return vertexSet.empty();
 }
 
+vector<Vertex*> Graph::findEulerianPath() {
+    vector<Vertex*> path;
+    vector<Edge*> edges;
 
+    // Verifica se o grafo é conexo
+    if (!isConnected()) {
+        return path;
+    }
+
+    // Copia as arestas da MST para uma lista
+    for (auto v : vertexSet) {
+        for (auto e : v->getAdj()) {
+            edges.push_back(e);
+        }
+    }
+
+    // Encontra um vértice inicial com grau ímpar
+    Vertex* startVertex = nullptr;
+    for (auto v : vertexSet) {
+        if (v->getAdj().size() % 2 != 0) {
+            startVertex = v;
+            break;
+        }
+    }
+
+    // Se não encontrou um vértice com grau ímpar, seleciona um vértice qualquer
+    if (startVertex == nullptr) {
+        startVertex = vertexSet.front();
+    }
+
+    // Realiza o percurso Euleriano
+    dfsEulerian(startVertex, edges, path);
+
+    return path;
+}
+
+void Graph::dfsEulerian(Vertex* v, vector<Edge*>& edges, vector<Vertex*>& path) {
+    while (!edges.empty()) {
+        Edge* e = edges.front();
+        edges.erase(edges.begin());
+
+        if (!e->getDest()->isVisited()) {
+            e->getDest()->setVisited(true);
+
+            Vertex* dest = e->getDest();
+            dfsEulerian(dest, edges, path);
+
+            path.push_back(dest);
+        }
+    }
+}
+
+vector<Vertex*> Graph::findHamiltonianPath() {
+    vector<Vertex*> path;
+    vector<bool> visited(getNumVertex(), false);
+
+    // Encontra um vértice inicial
+    Vertex* startVertex = nullptr;
+    for (auto v : vertexSet) {
+        if (v->getAdj().size() % 2 != 0) {
+            startVertex = v;
+            break;
+        }
+    }
+
+    // Se não encontrou um vértice com grau ímpar, seleciona um vértice qualquer
+    if (startVertex == nullptr) {
+        startVertex = vertexSet.front();
+    }
+    cout << "teste" << endl;
+    // Realiza o percurso Hamiltoniano
+    dfsHamiltonian(startVertex, visited, path);
+
+    // Adiciona o vértice inicial novamente para formar um ciclo
+    path.push_back(startVertex);
+
+    return path;
+}
+
+bool Graph::dfsHamiltonian(Vertex* v, vector<bool>& visited, vector<Vertex*>& path) {
+    visited[v->getId()] = true;
+
+    for (auto e : vertexSet[v->getId()]->getAdj()) {
+        Vertex* dest = e->getDest();
+        if (!visited[dest->getId()]) {
+            path.push_back(dest);
+
+            if (dfsHamiltonian(dest, visited, path)) {
+                return true;
+            }
+
+            path.pop_back();
+        }
+    }
+
+    // Verifica se todos os vértices foram visitados
+    for (bool item : visited) {
+        if (!item) {
+            return false;
+        }
+    }
+
+    return true;
+}
 

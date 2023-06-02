@@ -51,7 +51,7 @@ void Menu::display() {
             case 3:
                 if(!graph.isEmpty()) {
                     clock_t start = clock();
-                    double value = algorithms.primMST(graph);
+                    double value = algorithms.primMST();
                     clock_t end = clock();
                     cout << "The graph has a minimum distance of: " << value << "." << endl;
                     cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
@@ -282,27 +282,55 @@ void Menu::backtracking_menu(){
 }
 
 void Menu::otherHeuristicsMenu() {
-    string choice;
-    while(true){
+    int choice;
+    while (true) {
         cout << "=============== Other Heuristics ===============" << endl;
         cout << "1. Cluster Based Algorithm" << endl;
+        cout << "2. Christofides Algorithm" << endl;
         cout << "4. Return" << endl;
-        cout << "Choose an option:";
+        cout << "Choose an option: ";
         cin >> choice;
-        if(choice == "1"){
-            while(true){
-                cout << "Choose number of clusters:";
-                int clusterNum = cin_int();
-                vector<Vertex*> path = algorithms.clusterBasedAlgorithm(clusterNum);
-                for(auto v:path){
-                    cout << v->getId() << endl;
+
+        switch (choice) {
+            case 1: {
+                while (true) {
+                    cout << "Choose number of clusters: ";
+                    int clusterNum;
+                    cin >> clusterNum;
+                    vector<Vertex*> path = algorithms.clusterBasedAlgorithm(clusterNum);
+                    for (auto v : path) {
+                        cout << v->getId() << endl;
+                    }
+                    break;
                 }
+                break;
+            }
+            case 2: {
+                clock_t start = clock();
+                vector<Vertex*> path = algorithms.christofidesTSP();
+                clock_t end = clock();
+                cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+                for (int i = 0; i < path.size(); i++) {
+                    cout << path[i];
+                    if (i != path.size() - 1) {
+                        cout << " ==> ";
+                    }
+                }
+            }
+            case 3: {
+                return;
+            }
+            case 4:
+                cout << "Returning..." << endl;
+                break;
+            default: {
+                cout << "Invalid option. Choose again." << endl;
                 break;
             }
         }
     }
-
 }
+
 
 int Menu::cin_int()
 {

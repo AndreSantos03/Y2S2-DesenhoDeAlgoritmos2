@@ -143,7 +143,7 @@ vector<Vertex *> Algorithms::clusterBasedAlgorithm(int numClusters) {
     return path;
 }
 
-double Algorithms::primMST(Graph graph) {
+double Algorithms::primMST() {
     for(auto &v : graph.getVertexSet()){
         v->setDist(std::numeric_limits<double>::max());
         v->setPath(nullptr);
@@ -181,6 +181,103 @@ double Algorithms::primMST(Graph graph) {
         }
     }
     return out;
+}
+
+Graph Algorithms::primMSTgraph() {
+    for(auto &v : graph.getVertexSet()){
+        v->setDist(std::numeric_limits<double>::max());
+        v->setPath(nullptr);
+        v->setVisited(false);
+    }
+
+    Vertex* s = graph.getVertexSet().front();
+    s->setDist(0);
+
+    MutablePriorityQueue<Vertex> q;
+    q.insert(s);
+
+    Graph mstGraph;
+
+    while(!q.empty()){
+        auto v = q.extractMin();
+        v->setVisited(true);
+
+        if (v->getPath() != nullptr) {
+            mstGraph.addEdge(v->getPath()->getOrig()->getId(), v->getPath()->getDest()->getId(), v->getPath()->getWeight());
+            mstGraph.addEdge(v->getPath()->getDest()->getId(), v->getPath()->getOrig()->getId(), v->getPath()->getWeight());
+        }
+
+        for(auto &e : v->getAdj()) {
+            Vertex* w = e->getDest();
+            if (!w->isVisited()) {
+                auto oldDist = w->getDist();
+                if(e->getWeight() < oldDist) {
+                    w->setDist(e->getWeight());
+                    w->setPath(e);
+                    if (oldDist == std::numeric_limits<double>::max()) {
+                        q.insert(w);
+                    }
+                    else {
+                        q.decreaseKey(w);
+                    }
+                }
+            }
+        }
+    }
+
+    return mstGraph;
+}
+
+vector<Vertex*> Algorithms::christofidesTSP() {
+    // 1. Calcula a MST usando o algoritmo de Prim
+    Graph mst = primMSTgraph();
+    // 2. Encontra os vértices com grau ímpar na MST
+    vector<Vertex*> oddVertices;
+
+    for (auto v : mst.getVertexSet()) {
+        if (v->getAdj().size() % 2 != 0) {
+            oddVertices.push_back(v);
+        }
+    }
+
+
+    // 3. Constrói um subgrafo apenas com os vértices de grau ímpar
+    Graph oddGraph;
+    for (auto v : oddVertices) {
+        for (auto e : v->getAdj()) { // Alteração: Iterar sobre as adjacências do vértice atual (v)
+            if (find(oddVertices.begin(), oddVertices.end(), e->getDest()) != oddVertices.end()) {
+                oddGraph.addEdge(e->getOrig()->getId(), e->getDest()->getId(), e->getWeight()); // Alteração: Passar o vértice de origem e destino diretamente
+            }
+        }
+    }
+
+
+    // 4. Encontra um caminho Euleriano na MST
+    vector<Vertex*> mstPath = mst.findEulerianPath();
+
+    // 5. Encontra um caminho Hamiltoniano no subgrafo com vértices de grau ímpar
+    vector<Vertex*> oddPath = oddGraph.findHamiltonianPath();
+    cout << "MST4: " << endl;
+
+    // 6. Combina os caminhos da MST e do subgrafo com vértices de grau ímpar
+    vector<Vertex*> finalPath;
+    for (auto v : mstPath) {
+        finalPath.push_back(v);
+    }
+    for (auto v : oddPath) {
+        finalPath.push_back(v);
+    }
+
+    double minDistance = 0;
+    for (size_t i = 0; i < finalPath.size() - 1; i++) {
+        Vertex* source = finalPath[i];
+        Vertex* dest = finalPath[i + 1];
+        double distance = calculateDistance(source, dest);
+        minDistance += distance;
+    }
+
+    cout << endl << "The graph has a minimum distance of: " << minDistance << "." << endl;
+    return finalPath;
 }
 
 
