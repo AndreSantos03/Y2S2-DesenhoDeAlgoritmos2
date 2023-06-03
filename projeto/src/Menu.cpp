@@ -47,10 +47,27 @@ void Menu::display() {
             case 3:
                 if(!graph.isEmpty()) {
                     clock_t start = clock();
-                    double value = algorithms.primMST();
+                    Graph msTgraph = algorithms.primMSTgraph();
                     clock_t end = clock();
-                    cout << "The graph has a minimum distance of: " << value << " meters." << endl;
                     cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+                    cout << "The path is: ";
+                    vector<bool> visited(graph.getNumVertex(), false);
+                    vector<int> path;
+                    msTgraph.dfs(msTgraph.findVertex(0), visited, path);
+                    double value = 0;
+                    path.push_back(0);
+                    for (int i = 0; i < path.size(); i++) {
+                        cout << path[i];
+                        if (i != path.size() - 1) {
+                            cout << " ==> ";
+                            value += graph.findVertex(path[i])->getEdge(graph.findVertex(path[i+1]))->getWeight();
+                        }
+                        else{
+                            cout << endl;
+                        }
+                    }
+                    cout << endl << "The graph has a minimum distance of: " << value <<" meters."<< endl;
+                    cout << endl;
                 } else {
                     cout << endl;
                     cout << "The graph is empty. Please load a graph first." << endl;
