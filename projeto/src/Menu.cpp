@@ -58,10 +58,6 @@ void Menu::display() {
                 break;
             case 4:
                 if(!graph.isEmpty()) {
-                    if(!realGraph){
-                        cout << "You must load a real graph to access this algorithms!" << endl;
-                        break;
-                    }
                     otherHeuristicsMenu();
                 } else {
                     cout << endl;
@@ -313,32 +309,38 @@ void Menu::otherHeuristicsMenu() {
 
         switch (choice) {
             case 1: {
-                while (true) {
-                    cout << "Choose number of clusters (it must be a multiple of 4: 4,8,12, ... ):";
-                    int clusterNum;
-                    cin >> clusterNum;
-                    if (clusterNum % 4 != 0 && clusterNum != 0) {
-                        cout << clusterNum << " is not a multiple of 4!" << endl << endl;
-                    } else {
-                        clock_t start = clock();
-                        vector<Vertex *> path = algorithms.clusterBasedAlgorithm(clusterNum);
-                        clock_t end = clock();
-                        cout << "The Path is as followed: " << endl;
-                        for (auto v: path) {
-                            cout << v->getId();
-                            if (v != path.back()) {
-                                cout << " ---> ";
-                            }
-                            else{
-                                cout << endl;
-                            }
-                        }
-                        cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << "." << endl;
-                        cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
-                        break;
-                    }
+                if(!realGraph){
+                    cout << "You must load a real graph to access this algorithms!" << endl;
+                    break;
                 }
-                break;
+                else{
+                    while (true) {
+                        cout << "Choose number of clusters (it must be a multiple of 4: 4,8,12, ... ):";
+                        int clusterNum;
+                        cin >> clusterNum;
+                        if (clusterNum % 4 != 0 && clusterNum != 0) {
+                            cout << clusterNum << " is not a multiple of 4!" << endl << endl;
+                        } else {
+                            clock_t start = clock();
+                            vector<Vertex *> path = algorithms.clusterBasedAlgorithm(clusterNum);
+                            clock_t end = clock();
+                            cout << "The Path is as followed: " << endl;
+                            for (auto v: path) {
+                                cout << v->getId();
+                                if (v != path.back()) {
+                                    cout << " ---> ";
+                                }
+                                else{
+                                    cout << endl;
+                                }
+                            }
+                            cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << "." << endl;
+                            cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+                            break;
+                        }
+                    }
+                    break;
+                }
             }
             case 2: {
                 clock_t start = clock();
