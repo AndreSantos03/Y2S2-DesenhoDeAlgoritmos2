@@ -121,7 +121,8 @@ public:
      */
     bool dfsHamiltonian(Vertex* v, vector<bool> &visited, vector<Vertex*> &path);
 
-    void dfs(Vertex *v, vector<bool> &visited) const;
+    void dfs(Vertex *v, vector<bool> &visited, vector<int> &path) const;
+
 
 private:
     std::vector<Vertex *> vertexSet; /**< The set of vertices in the graph */

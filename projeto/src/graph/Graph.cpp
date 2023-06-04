@@ -149,13 +149,14 @@ double Graph::dijkstra(int src, int dest) {
     return -1;
 }
 
-void Graph::dfs(Vertex* v, std::vector<bool>& visited) const {
+void Graph::dfs(Vertex* v, vector<bool>& visited, vector<int>& path) const {
     visited[findVertexIdx(v->getId())] = true;
+    path.push_back(v->getId());
 
     for (auto edge : v->getAdj()) {
         Vertex* dest = edge->getDest();
         if (!visited[findVertexIdx(dest->getId())]) {
-            dfs(dest, visited);
+            dfs(dest, visited, path);
         }
     }
 }
