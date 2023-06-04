@@ -319,7 +319,7 @@ void Menu::otherHeuristicsMenu() {
         cout << "=============== Other Heuristics ===============" << endl;
         cout << "1. Cluster Based Algorithm" << endl;
         cout << "2. Christofides Algorithm" << endl;
-        cout << "2. Nearest Neighbor Algorithm" << endl;
+        cout << "3. Nearest Neighbor Algorithm" << endl;
         cout << "4. Return" << endl;
         cout << "Choose an option:";
         cin >> choice;
@@ -340,18 +340,21 @@ void Menu::otherHeuristicsMenu() {
                         } else {
                             clock_t start = clock();
                             vector<Vertex *> path = algorithms.clusterBasedAlgorithm(clusterNum);
+                            double value = 0;
                             clock_t end = clock();
-                            cout << "The Path is as followed: " << endl;
-                            for (auto v: path) {
-                                cout << v->getId();
-                                if (v != path.back()) {
-                                    cout << " ---> ";
+                            path.push_back(path[0]);
+                            cout << "The Path is as followed: ";
+                            for (int i = 0; i < path.size(); i++) {
+                                cout << path[i]->getId();
+                                if (i != path.size() - 1) {
+                                    cout << " ==> ";
+                                    value += graph.findVertex(path[i]->getId())->getEdge(graph.findVertex(path[i+1]->getId()))->getWeight();
                                 }
                                 else{
                                     cout << endl;
                                 }
                             }
-                            cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << "." << endl;
+                            cout << endl << "The graph has a minimum distance of: " << value <<" meters."<< endl;
                             cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
                             break;
                         }
@@ -361,34 +364,42 @@ void Menu::otherHeuristicsMenu() {
             }
             case 2: {
                 clock_t start = clock();
-                vector<Vertex*> path = algorithms.christofidesTSP();
+                vector<Vertex *> path = algorithms.christofidesTSP();
+                double value = 0;
                 clock_t end = clock();
-                cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+                cout << "The Path is as followed: ";
                 for (int i = 0; i < path.size(); i++) {
                     cout << path[i]->getId();
                     if (i != path.size() - 1) {
                         cout << " ==> ";
+                        value += graph.findVertex(path[i]->getId())->getEdge(graph.findVertex(path[i+1]->getId()))->getWeight();
                     }
                     else{
                         cout << endl;
                     }
                 }
+                cout << endl << "The graph has a minimum distance of: " << value <<" meters."<< endl;
+                cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
+                break;
             }
             case 3: {
                 clock_t start = clock();
                 vector<Vertex *> path = algorithms.nearestNeighbor();
+                double value = 0;
                 clock_t end = clock();
-                cout << "The Path is as followed: " << endl;
-                for (auto v: path) {
-                    cout << v->getId();
-                    if (v != path.back()) {
-                        cout << " ---> ";
+                path.push_back(path[0]);
+                cout << "The Path is as followed: ";
+                for (int i = 0; i < path.size(); i++) {
+                    cout << path[i]->getId();
+                    if (i != path.size() - 1) {
+                        cout << " ==> ";
+                        value += graph.findVertex(path[i]->getId())->getEdge(graph.findVertex(path[i+1]->getId()))->getWeight();
                     }
                     else{
                         cout << endl;
                     }
                 }
-                cout << "The distance of this path is "  << Algorithms::calculatePathCost(path) << "." << endl;
+                cout << endl << "The graph has a minimum distance of: " << value <<" meters."<< endl;
                 cout << "The execution time was: " << (double)(end-start)/CLOCKS_PER_SEC << " seconds." << endl;
                 break;
             }

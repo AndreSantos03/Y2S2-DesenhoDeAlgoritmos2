@@ -148,6 +148,12 @@ public:
     bool removeEdge(int destID);
 
     /**
+     * @brief Delete an edge from the vertex's adjacency list.
+     * @param edge The edge to be deleted.
+     */
+    void deleteEdge(Edge* edge) const;
+
+    /**
      * @brief Remove all outgoing edges from this vertex.
      */
     void removeOutgoingEdges();
@@ -167,11 +173,6 @@ protected:
 
     int queueIndex = 0;             /**< Required by MutablePriorityQueue and UFDS */
 
-    /**
-     * @brief Delete an edge from the vertex's adjacency list.
-     * @param edge The edge to be deleted.
-     */
-    void deleteEdge(Edge* edge) const;
 
 };
 

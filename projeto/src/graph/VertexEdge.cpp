@@ -1,4 +1,5 @@
 #include <utility>
+#include <algorithm>
 
 #include "../../include/graph/VertexEdge.h"
 
@@ -101,17 +102,17 @@ void Vertex::removeOutgoingEdges() {
     }
 }
 
-void Vertex::deleteEdge(Edge *edge) const {
-    Vertex *dest = edge->getDest();
-    // Remove the corresponding edge from the incoming list
-    auto it = dest->incoming.begin();
-    while (it != dest->incoming.end()) {
-        if ((*it)->getOrig()->getId() == id) {
-            it = dest->incoming.erase(it);
-        } else {
-            it++;
-        }
+void Vertex::deleteEdge(Edge* edge) const {
+    Vertex* dest = edge->getDest();
+    Edge* edgeToRemove = nullptr;
+
+    // Procura a aresta correspondente na lista incoming
+    auto it = std::find(dest->incoming.begin(), dest->incoming.end(), edge);
+    if (it != dest->incoming.end()) {
+        dest->incoming.erase(it);
     }
+
+    // Deleta a aresta fornecida
     delete edge;
 }
 

@@ -211,7 +211,6 @@ vector<Vertex*> Algorithms::christofidesTSP() {
     // 1. Calcula a MST usando o algoritmo de Prim
     Graph mst = primMSTgraph();
 
-
     // 2. Encontra os vértices com grau ímpar na MST
     vector<Vertex*> oddVertices;
 
@@ -221,71 +220,46 @@ vector<Vertex*> Algorithms::christofidesTSP() {
         }
     }
 
-
     // 3. Constrói um subgrafo apenas com os vértices de grau ímpar
     Graph oddGraph;
-    unordered_set<int> oddVertexIds;
 
-// Adicionar os vértices ímpares ao oddGraph
+    // Adicionar os vértices ímpares ao oddGraph
     for (auto v : oddVertices) {
         oddGraph.addVertex(v->getId());
-        oddVertexIds.insert(v->getId());
     }
 
-// Adicionar as arestas aos vértices ímpares no oddGraph
+
+    // Adicionar as arestas aos vértices ímpares no oddGraph
     for (auto v : oddVertices) {
         for (auto e : v->getAdj()) {
-            if (oddVertexIds.count(e->getDest()->getId()) > 0) {
-                oddGraph.addEdge(e->getOrig()->getId(), e->getDest()->getId(), e->getWeight());
-            }
+            oddGraph.addEdge(e->getOrig()->getId(), e->getDest()->getId(), e->getWeight());
         }
     }
 
+    // Calcular o emparelhamento perfeito mínimo
+    vector<Edge*> minimumMatching = oddGraph.calculateMinimumMatching();
 
-
+    // Adicionar as arestas do emparelhamento perfeito mínimo à árvore geradora mínima (AGM)
+    for (auto edge : minimumMatching) {
+        mst.addEdge(edge->getOrig()->getId(), edge->getDest()->getId(), edge->getWeight());
+    }
     // 4. Encontra um caminho Euleriano na MST
     vector<Vertex*> mstPath = mst.findEulerianPath();
-    if(mstPath.empty()) cout << "test3" <<endl;
-    else{
-        cout << "test4" <<endl;
-        for(auto v : mstPath){
-            cout << v->getId() << endl;
+
+    vector<Vertex*> hamiltonianCycle;
+
+    unordered_set<int> visited;
+    for (auto vertex : mstPath) {
+        if (visited.count(vertex->getId()) == 0) {
+            hamiltonianCycle.push_back(vertex);
+            visited.insert(vertex->getId());
         }
     }
+    hamiltonianCycle.push_back(mstPath[0]);
 
-
-    // 5. Encontra um caminho Hamiltoniano no subgrafo com vértices de grau ímpar
-    vector<Vertex*> oddPath = oddGraph.findHamiltonianPath();
-    if(oddPath.empty()) cout << "test3" <<endl;
-    else{
-        cout << "test5" <<endl;
-        for(auto v : oddPath){
-            cout << v->getId() << endl;
-        }
-    }
-    cout << "test" <<endl;
-    // 6. Combina os caminhos da MST e do subgrafo com vértices de grau ímpar
-    vector<Vertex*> finalPath;
-    for (auto v : mstPath) {
-        cout << v->getId() << "test1" <<endl;
-        finalPath.push_back(v);
-    }
-    for (auto v : oddPath) {
-        cout << v->getId() << "teste2" <<endl;
-        finalPath.push_back(v);
-    }
-
-    double minDistance = 0;
-    for (size_t i = 0; i < finalPath.size() - 1; i++) {
-        Vertex* source = finalPath[i];
-        Vertex* dest = finalPath[i + 1];
-        double distance = calculateDistance(source, dest);
-        minDistance += distance;
-    }
-
-    cout << endl << "The graph has a minimum distance of: " << minDistance << "." << endl;
-    return finalPath;
+    return hamiltonianCycle;
 }
+
 
 vector<Vertex *> Algorithms::nearestNeighbor() {
     for(auto v: graph.getVertexSet()){

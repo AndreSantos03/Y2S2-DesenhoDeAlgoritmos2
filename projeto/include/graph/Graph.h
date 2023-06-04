@@ -106,23 +106,9 @@ public:
      */
     void dfsEulerian(Vertex* v, vector<Vertex*>& path);
 
-    /**
-     * @brief Find a Hamiltonian path in the graph.
-     * @return A vector containing the pointers to the vertices in the Hamiltonian path.
-     */
-    vector<Vertex*> findHamiltonianPath();
-
-    /**
-     * @brief Perform a depth-first search (DFS) to find a Hamiltonian path.
-     * @param v The pointer to the current vertex.
-     * @param visited A vector that marks the visited vertices.
-     * @param path A vector of pointers to the vertices traversed in the Hamiltonian path.
-     * @return True if a Hamiltonian path is found, False otherwise.
-     */
-    bool dfsHamiltonian(Vertex* v, vector<bool> &visited, vector<Vertex*> &path);
-
     void dfs(Vertex *v, vector<bool> &visited, vector<int> &path) const;
 
+    vector<Edge *> calculateMinimumMatching();
 
 private:
     std::vector<Vertex *> vertexSet; /**< The set of vertices in the graph */

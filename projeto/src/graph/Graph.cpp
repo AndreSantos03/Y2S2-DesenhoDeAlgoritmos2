@@ -2,7 +2,8 @@
 #include <xmath.h>
 #include <queue>
 #include <vector>
-
+#include <unordered_set>
+#include <stack>
 
 
 Vertex* Graph::findVertex(const int& id) const {
@@ -165,32 +166,81 @@ bool Graph::isEmpty() const {
     return vertexSet.empty();
 }
 
-vector<Vertex*> Graph::findEulerianPath() {
-    vector<Vertex*> path;
+// Função para calcular o emparelhamento perfeito mínimo usando o algoritmo de Edmonds
+vector<Edge*> Graph::calculateMinimumMatching() {
+    vector<Edge*> matching;
+    unordered_set<int> matchedVertices;
 
-    // Verifica se o grafo é conexo
-    if (!isConnected()) {
-        return path;
-    }
+    for (auto vertex : getVertexSet()) {
+        if (matchedVertices.count(vertex->getId()) == 0) {
+            Edge* minWeightEdge = nullptr;
 
-    // Encontra um vértice inicial com grau ímpar
-    Vertex* startVertex = nullptr;
-    for (auto v : vertexSet) {
-        if (v->getAdj().size() % 2 != 0) {
-            startVertex = v;
-            break;
+            for (auto edge : vertex->getAdj()) {
+                if (matchedVertices.count(edge->getDest()->getId()) == 0) {
+                    if (minWeightEdge == nullptr || edge->getWeight() < minWeightEdge->getWeight()) {
+                        minWeightEdge = edge;
+                    }
+                }
+            }
+
+            if (minWeightEdge != nullptr) {
+                matching.push_back(minWeightEdge);
+                matchedVertices.insert(vertex->getId());
+                matchedVertices.insert(minWeightEdge->getDest()->getId());
+            }
         }
     }
 
-    // Se não encontrou um vértice com grau ímpar, seleciona um vértice qualquer
-    if (startVertex == nullptr) {
-        startVertex = vertexSet.front();
+    return matching;
+}
+
+
+vector<Vertex*> Graph::findEulerianPath() {
+    vector<Vertex*> eulerianPath;
+
+    if (vertexSet.empty()) {
+        return eulerianPath;
     }
 
-    // Realiza o percurso Euleriano
-    dfsEulerian(startVertex, path);
+    stack<pair<Vertex*, Edge*>> path;
+    Vertex* startVertex = vertexSet[0];
+    path.push({startVertex, nullptr});
 
-    return path;
+    while (!path.empty()) {
+        Vertex* currentVertex = path.top().first;
+        Edge* prevEdge = path.top().second;
+
+        if (!currentVertex->getAdj().empty()) {
+            Edge* nextEdge = nullptr;
+
+            for (auto edge : currentVertex->getAdj()) {
+                if (edge != prevEdge) {
+                    nextEdge = edge;
+                    break;
+                }
+            }
+
+            if (nextEdge != nullptr) {
+                Vertex* nextVertex = nextEdge->getDest();
+
+                // Remove a aresta da lista de adjacências
+                currentVertex->removeEdge(nextVertex->getId());
+
+                path.push({nextVertex, nextEdge});
+            }
+            else {
+                eulerianPath.push_back(currentVertex);
+                path.pop();
+            }
+        }
+        else {
+            eulerianPath.push_back(currentVertex);
+            path.pop();
+        }
+    }
+
+    eulerianPath.insert(eulerianPath.begin(), startVertex);
+    return eulerianPath;
 }
 
 void Graph::dfsEulerian(Vertex* v, vector<Vertex*>& path) {
@@ -205,47 +255,5 @@ void Graph::dfsEulerian(Vertex* v, vector<Vertex*>& path) {
     }
 
     path.push_back(v);
-}
-
-vector<Vertex*> Graph::findHamiltonianPath() {
-    vector<Vertex*> path;
-    vector<bool> visited(getNumVertex(), false);
-
-    // Realiza o percurso Hamiltoniano a partir de cada vértice
-    for (auto v : vertexSet) {
-        path.push_back(v);
-        if (dfsHamiltonian(v, visited, path)) {
-            return path;
-        }
-        path.clear();
-        visited.assign(getNumVertex(), false);
-    }
-
-    return path;
-}
-
-bool Graph::dfsHamiltonian(Vertex* v, vector<bool>& visited, vector<Vertex*>& path) {
-    if (path.size() == vertexSet.size()) {
-        return true;  // Encontrou um caminho Hamiltoniano completo
-    }
-
-    visited[findVertexIdx(v->getId())] = true;
-
-    for (auto e : v->getAdj()) {
-        Vertex* dest = e->getDest();
-        if (!visited[findVertexIdx(dest->getId())]) {
-            path.push_back(dest);
-
-            if (dfsHamiltonian(dest, visited, path)) {
-                return true;
-            }
-
-            path.pop_back();
-        }
-    }
-
-    visited[findVertexIdx(v->getId())] = false;
-
-    return false;  // Não encontrou um caminho Hamiltoniano completo
 }
 
