@@ -75,43 +75,6 @@ void Graph::addBidirectionalEdge(const int &source, const int &dest, double w) c
     }
 }
 
-bool Graph::isConnected() const {
-    if (vertexSet.empty()) {
-        return false;  // Grafo vazio não é considerado conexo
-    }
-
-    int numVertices = getNumVertex();
-    vector<bool> visited(numVertices, false);
-
-    // Realiza uma busca em largura a partir de um vértice inicial
-    int startVertex = vertexSet.front()->getId();
-    queue<int> q;
-    q.push(startVertex);
-    visited[startVertex] = true;
-
-    while (!q.empty()) {
-        int currVertex = q.front();
-        q.pop();
-
-        for (auto edge : vertexSet[currVertex]->getAdj()) {
-            int neighbor = edge->getDest()->getId();
-            if (!visited[neighbor]) {
-                q.push(neighbor);
-                visited[neighbor] = true;
-            }
-        }
-    }
-
-    // Verifica se todos os vértices foram visitados
-    for (bool v : visited) {
-        if (!v) {
-            return false;  // Grafo não é conexo
-        }
-    }
-
-    return true;  // Grafo é conexo
-}
-
 
 int Graph::getNumVertex() const {
     return (int) vertexSet.size();
@@ -121,34 +84,6 @@ std::vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
 
-
-
-double Graph::dijkstra(int src, int dest) {
-
-    for  (auto& i : vertexSet) {
-        i->setVisited(false);
-        i->setDist(INF);
-    }
-
-    std::priority_queue<std::pair<double,int>,std::vector<std::pair<double,int>>,Comp> q;
-
-    q.emplace(0,src);
-
-    while (!q.empty()) {
-        auto curr = q.top();
-        q.pop();
-        if(curr.second == dest) return curr.first;
-        findVertex(curr.second)->setVisited(true);
-        findVertex(curr.second)->setDist(curr.first);
-
-        for(auto e: findVertex(curr.second)->getAdj()){
-            if(e->getDest()->getId() != curr.second && !e->getDest()->isVisited()){
-                q.emplace(curr.first+e->getWeight(),e->getDest()->getId());
-            }
-        }
-    }
-    return -1;
-}
 
 void Graph::dfs(Vertex* v, vector<bool>& visited, vector<int>& path) const {
     visited[findVertexIdx(v->getId())] = true;

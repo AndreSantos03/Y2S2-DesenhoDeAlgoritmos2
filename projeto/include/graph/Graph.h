@@ -1,8 +1,8 @@
 #ifndef DA_PROJECT2_GRAPH_H
 #define DA_PROJECT2_GRAPH_H
 
-
 #include "VertexEdge.h"
+#include <vector>
 
 using namespace std;
 
@@ -16,14 +16,14 @@ public:
      * @param id The identifier of the vertex to be found.
      * @return A pointer to the found vertex or nullptr if it doesn't exist.
      */
-    [[nodiscard]] Vertex *findVertex(const int &id) const;
+    Vertex *findVertex(const int &id) const;
 
     /**
      * @brief Find the index of a vertex by its identifier.
      * @param id The identifier of the vertex.
      * @return The index of the found vertex or UINT_MAX if it doesn't exist.
      */
-    [[nodiscard]] unsigned int findVertexIdx(const int &id) const;
+    unsigned int findVertexIdx(const int &id) const;
 
     /**
      * @brief Add a vertex to the graph.
@@ -64,33 +64,19 @@ public:
      * @brief Check if the graph is empty.
      * @return True if the graph is empty, False otherwise.
      */
-    [[nodiscard]] bool isEmpty() const;
+    bool isEmpty() const;
 
     /**
      * @brief Get the number of vertices in the graph.
      * @return The number of vertices in the graph.
      */
-    [[nodiscard]] int getNumVertex() const;
+    int getNumVertex() const;
 
     /**
      * @brief Get the set of vertices in the graph.
      * @return A vector containing the pointers to the vertices in the graph.
      */
-    [[nodiscard]] std::vector<Vertex *> getVertexSet () const;
-
-    /**
-     * @brief Perform Dijkstra's algorithm to find the shortest path between two vertices.
-     * @param src The identifier of the source vertex.
-     * @param dest The identifier of the destination vertex.
-     * @return The cost of the shortest path between the vertices, or INFINITY if there is no path.
-     */
-    double dijkstra(int src, int dest);
-
-    /**
-     * @brief Check if the graph is connected.
-     * @return True if the graph is connected, False otherwise.
-     */
-    bool isConnected() const;
+    vector<Vertex *> getVertexSet () const;
 
     /**
      * @brief Find an Eulerian path in the graph.
@@ -101,33 +87,26 @@ public:
     /**
      * @brief Perform a depth-first search (DFS) to find an Eulerian path.
      * @param v The pointer to the current vertex.
-     * @param edges A vector of pointers to the edges traversed in the Eulerian path.
      * @param path A vector of pointers to the vertices traversed in the Eulerian path.
      */
     void dfsEulerian(Vertex* v, vector<Vertex*>& path);
 
+    /**
+     * @brief Perform a depth-first search (DFS) to find the connected component of a vertex.
+     * @param v The pointer to the current vertex.
+     * @param visited A vector indicating which vertices have been visited.
+     * @param path A vector of vertices representing the connected component.
+     */
     void dfs(Vertex *v, vector<bool> &visited, vector<int> &path) const;
 
+    /**
+     * @brief Calculate the minimum weight matching for the vertices in the graph.
+     * @return A vector containing the pointers to the edges in the minimum weight matching.
+     */
     vector<Edge *> calculateMinimumMatching();
 
 private:
-    std::vector<Vertex *> vertexSet; /**< The set of vertices in the graph */
-
-    /**
-     * @brief Auxiliary class to compare pairs (distance, index) for the priority queue in Dijkstra's algorithm.
-     */
-    class Comp {
-    public:
-        /**
-         * @brief Overloaded comparison operator for the Comp class.
-         * @param p1 The first pair to be compared.
-         * @param p2 The second pair to be compared.
-         * @return True if p1 is less than p2, False otherwise.
-         */
-        bool operator()(std::pair<double, int> p1, std::pair<double, int> p2) {
-            return p1.first > p2.first;
-        }
-    };
+    vector<Vertex *> vertexSet; /**< The set of vertices in the graph */
 
 };
 

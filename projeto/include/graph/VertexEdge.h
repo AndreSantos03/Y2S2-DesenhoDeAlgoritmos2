@@ -5,6 +5,8 @@
 #include <vector>
 #include "MutablePriorityQueue.h"
 
+using namespace std;
+
 class Edge;
 
 /************************* Vertex  **************************/
@@ -25,7 +27,7 @@ public:
      * @param id The identifier of the vertex.
      * @param label The label of the vertex.
      */
-    Vertex(int id, std::string label);
+    Vertex(int id, string label);
 
     /**
      * @brief Constructs a vertex with the given identifier, longitude, and latitude.
@@ -58,18 +60,13 @@ public:
      * @brief Get the outgoing edges of the vertex.
      * @return A vector containing pointers to the outgoing edges.
      */
-    [[nodiscard]] std::vector<Edge*> getAdj() const;
+    [[nodiscard]] vector<Edge*> getAdj() const;
 
     /**
      * @brief Get the incoming edges of the vertex.
      * @return A vector containing pointers to the incoming edges.
      */
-    [[nodiscard]] std::vector<Edge*> getIncoming() const;
-
-    /**
-     * @brief Check if the vertex has been visited.
-     * @return True if the vertex has been visited, False otherwise.
-     */
+    [[nodiscard]] vector<Edge*> getIncoming() const;
 
     /**
      * @brief Get the longitude of the vertex.
@@ -87,7 +84,7 @@ public:
      * @brief Get the label of the vertex.
      * @return The label of the vertex.
      */
-    [[nodiscard]] std::string getLabel() const;
+    [[nodiscard]] string getLabel() const;
 
     /**
      * @brief Check if the vertex has been visited.
@@ -99,7 +96,7 @@ public:
      * @brief Get the path edge leading to this vertex (used in algorithms like Dijkstra's algorithm).
      * @return A pointer to the path edge.
      */
-    [[nodiscard]] Edge *getPath() const;
+    [[nodiscard]] Edge* getPath() const;
 
     /**
      * @brief Get the edge between this vertex and a specified destination vertex.
@@ -130,7 +127,7 @@ public:
      * @brief Set the path edge leading to this vertex.
      * @param path The path edge leading to this vertex.
      */
-    void setPath(Edge *path);
+    void setPath(Edge* path);
 
     /**
      * @brief Add an outgoing edge from this vertex to a specified destination vertex with the given weight.
@@ -162,18 +159,16 @@ public:
 
 protected:
     int id;                         /**< Vertex identifier */
-    std::string label;              /**< Vertex label */
+    string label;              /**< Vertex label */
     double longitude;               /**< Vertex longitude */
     double latitude;                /**< Vertex latitude */
-    std::vector<Edge*> adj;         /**< Outgoing edges */
-    std::vector<Edge*> incoming;    /**< Incoming edges */
+    vector<Edge*> adj;         /**< Outgoing edges */
+    vector<Edge*> incoming;    /**< Incoming edges */
     double dist;                    /**< Distance (used in algorithms like Dijkstra's algorithm) */
     bool visited = false;           /**< Visited flag */
     Edge* path = nullptr;           /**< Path edge (used in algorithms like Dijkstra's algorithm) */
 
     int queueIndex = 0;             /**< Required by MutablePriorityQueue and UFDS */
-
-
 };
 
 /********************** Edge ****************************/
@@ -210,7 +205,7 @@ public:
     [[nodiscard]] double getWeight() const;
 
     /**
-     * @brief Get the reverse edge (used in algorithms like Kruskal's algorithm).
+     * @brief Get the reverse edge.
      * @return A pointer to the reverse edge.
      */
     [[nodiscard]] Edge* getReverse() const;
@@ -226,7 +221,6 @@ private:
     Vertex* dest;       /**< Destination vertex */
     double weight;      /**< Edge weight */
     Edge* reverse;      /**< Reverse edge */
-
 };
 
 #endif

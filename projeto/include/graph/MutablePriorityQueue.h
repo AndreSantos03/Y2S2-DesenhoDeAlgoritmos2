@@ -3,11 +3,12 @@
 
 #include <vector>
 
+using namespace std;
 
 
 template <class T>
 class MutablePriorityQueue {
-    std::vector<T *> H;
+    vector<T *> H;
     void heapifyUp(unsigned i);
     void heapifyDown(unsigned i);
     inline void set(unsigned i, T * x);
